@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Dapp Sdk Vendor</string>
+
+    <string name="ex_reader_library_not_linked">In order to use Dapp QR Scanner, please add \'me.dm7.barcodescanner:zxing\' and \'com.google.zxing:core\' to your gradle</string>
+
+    <string name="title_activity_reader">QR Reader</string>
+</resources>

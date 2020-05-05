@@ -1,0 +1,209 @@
+﻿# Dapp Vendor SDK for Android
+Este SDK esta pensado para las aplicaciones de negocios con ventas presenciales. Cuenta con dos funciones principales:
+
+- Leer códigos QR Request to Pay integrados al ambiente Dapp.
+- Generar y monitorear el estado de códigos Dapp QR POS.
+
+## INSTALACIÓN
+
+1. Ve a Android Studio - New Project - Minimun SDK.
+2. Selecciona *API 16: Android 4.1* o superior, y crea el proyecto.
+3. Una vez creado el proyecto, abre *your_app | build.gradle*.
+4. Añade esto a */app/build.gradle* en el nivel de *módulo* antes de *dependencies*:
+
+```java
+
+        repositories {
+          jcenter()
+        }
+```
+
+5. Añade la dependencia de compilación con la última versión de **Dapp Core** y **Dapp Vendor SDK** al archivo *build.gradle*:
+
+```java
+
+        dependencies {
+          implementation 'mx.dapp.sdk:core:2.0.0'
+          implementation 'mx.dapp.sdk:vendor:2.0.0'
+        }
+```
+
+6. Compila el proyecto y ya puedes inicializar Dapp Vendor en tu aplicación.
+
+De forma estándar el SDK monitorea el estado de los códigos QR POS vía peticiones HTTP. Existe una versión alternativa que sigue el estado del código QR a través de WebSockets con ayuda de la librería [OkHttp](https://github.com/square/okhttp). Si deseas utilizar esta versión incluye esta línea en las dependencias:
+
+```java
+
+        dependencies {
+          implementation 'com.squareup.okhttp3:okhttp:3.12.1'
+        }
+```
+
+## CONFIGURACIÓN
+
+1. Inicializa Dapp reemplazando _your-dapp-api-key_ con tu clave, el ambiente de trabajo y el contexto:
+
+```java
+        Dapp.init(your_api_key, DappEnviroment.SANDBOX, requireContext());
+```
+
+## CÓDIGOS QR POS
+
+Los códigos QR POS, son códigos generados por negocios integrados al ambiente Dapp, diseñados para que los clientes puedan leer la información del cobro y pagar.
+
+1. Añade la dependencia de la libreria [zxing 3.4.0](https://github.com/zxing/zxing/releases/tag/zxing-3.4.0) .
+```java
+    implementation 'com.google.zxing:core:3.4.0'
+```
+
+2. Crea un objeto **DappPosCode**.
+```java
+       DappPosCode dappPosCode = new DappPosCode(10.0, "my description", "my reference");
+```
+
+3. Genera el código.
+
+```java
+        dappPosCode.createWithImage(500, 500, new DappCodePoSImageCallback() {
+            @Override
+            public void onSuccess(Bitmap bitmap) {
+                
+            }
+
+            @Override
+            public void onError(DappException exception) {
+            
+            }
+        });
+```
+
+
+4. Empieza a monitorear el estado de pago del código con la función _listen_
+
+```java
+        dappPosCode.listen();
+```
+
+5. Utiliza la funcion _stopListening_ para detener el monitoreo del pago
+```java
+        dappPosCode.stopListening();
+```
+## CÓDIGOS QR REQUEST TO PAY
+Los códigos QR RP, son códigos generados por usuarios, diseñados para dar permiso al negocio lector de realizar un cobro a su cuenta.
+
+En caso de que la aplicación ya cuente con un lector de códigos QR propio, crea un objeto *DappRPCode* con el valor del código QR y llama a la función **charge()** para realizar un cargo al usuario.
+```java
+void codeScanned(String qrString) {
+    DappRPCode code = DappRPCode(qrString);
+    double amount = 100;
+    String description  = "Payment description";
+    String reference = "Internal reference";
+    code.charge(amount, description: description, reference: referencenew DappPaymentCallback() {
+        @Override
+        public void onSuccess(DappPayment payment) {
+                
+        }
+
+        @Override
+        public void onError(DappException exception) {
+
+        }
+    });
+```
+## LECTOR DE CÓDIGOS QR RP
+Para utilizar esta funcionalidad agrege la dependencia a la libreria [barcodescanner](https://github.com/dm77/barcodescanner):
+```java
+    implementation 'me.dm7.barcodescanner:zxing:1.9.13'
+```
+
+Las funciones del lector se pueden implementar de dos formas:
+
+ - **Como activity**:  Más rápido y sencillo. Crea un _DappVendorScannerActivity_ y preséntalo. Éste activity se encarga de obtener la información de los códigos QR Dapp y de todos los aspectos relacionados con el UX.
+ - **Como fragment** : Más flexible. Crea un _DappScannerFragment_ que solo se encargará de leer el código QR, e inclúyelo dentro de tu activity. Esto te permite implementar un UX que vaya más acorde con tu aplicación.
+
+### Integra el lector como activity
+
+1. Crea un **Intent** e implementa el método _onActivityResult_ para recibir información del pago asociada al código QR escaneado.
+```java
+    void scanner(double amount, String description, String reference){
+        Intent intent = new Intent(requireActivity(), DappVendorScannerActivity.class);
+        intent.putExtra(DappVendorScannerActivity.AMOUNT, amount);
+        intent.putExtra(DappVendorScannerActivity.DESCRIPTION, description);
+        intent.putExtra(DappVendorScannerActivity.REFERENCE, reference);
+        startActivityForResult(intent, 5555);
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 5555){
+            if(resultCode == requireActivity().RESULT_OK){
+                DappPayment payment = data.getExtras().getParcelable(DappVendorScannerActivity.PAYMENT);
+            }
+        }
+    }    
+```
+### Integra el lector como fragment
+
+1. Incluye **DappScannerFragment** en el _view_ de tu activity y crea una instancia en el _onCreate()_ de tu activity
+```xml
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/dapp_scanner_fragment"
+        android:name="mx.dapp.sdk.core.scanner.DappScannerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </fragment>
+```
+```java
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.dapp_scanner_activity);
+
+        DappScannerFragment dappScannerFragment = (DappScannerFragment) getSupportFragmentManager().findFragmentById(R.id.dapp_scanner_fragment);
+    }
+```
+
+2. Asigna una implementacion de _DappScannerCallback_ para recibir la lectura del código QR.
+```java
+    dappScannerFragment.setScannerCallback(new DappScannerCallback(){
+        @Override
+        public void onScan(String result){
+        
+        }
+        
+        @Override
+        public void onClose(){
+        
+        }
+        
+        @Override
+        public void onError(DappException exception) {
+        
+        }
+    });
+```
+
+3. Sobreescribe los métodos del ciclo de vida de tu activity para controlar el estado del escáner.
+```java
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dappScannerFragment.startScanning();
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        dappScannerFragment.stopScanning();
+    }
+```
+
+4. En caso de necesitar saber si el lector está activo utilice la funcion _isScanning_
+```java
+    boolean isScanning = dappScannerFragment.isScanning()
+```
+## LICENCIA
+[MIT](../LICENSE.txt)
+
+

@@ -1,0 +1,55 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+ext {
+    bintrayRepo = "Dapp"
+    bintrayName = "mx.dapp.sdk.core"
+    libraryName = "core"
+    userOrganization = "dapppayments"
+
+    publishedGroupId = "mx.dapp.sdk"
+    artifact = "core"
+    libraryVersion = "2.0.0"
+
+    libraryDescription = ""
+    siteUrl = "https://dapp.mx"
+    gitUrl = ""
+    developerId = ""
+    developerName = "DappMX"
+    developerEmail = "devs@dapp.mx"
+    licenseName = "MIT"
+    licenseUrl = "https://github.com/DappPayments/Dapp-SDK-Android/blob/master/LICENSE.txt"
+    allLicenses = ["MIT"]
+}
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode 1
+        versionName "2.0.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly 'com.google.android.gms:play-services-base:+'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    compileOnly 'me.dm7.barcodescanner:zxing:1.9.13'
+    compileOnly 'com.google.zxing:core:3.4.0'
+    compileOnly 'com.squareup.okhttp3:okhttp:3.12.1'
+}
+
+apply from: 'publish.gradle'

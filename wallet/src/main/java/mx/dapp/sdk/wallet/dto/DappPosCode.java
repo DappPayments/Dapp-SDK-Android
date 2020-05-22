@@ -69,6 +69,7 @@ public class DappPosCode extends AbstractDappCode implements Parcelable {
                 jsonObject = data;
                 dappId = data.optString("id");
                 amount = data.optDouble("amount");
+                currency = data.optString("currency");
                 description = data.optString("description");
                 reference = data.optString("referencia");
                 dappUser = new DappUser(data.optJSONObject("dapp_user"));

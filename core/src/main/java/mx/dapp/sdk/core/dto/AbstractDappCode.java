@@ -3,6 +3,7 @@ package mx.dapp.sdk.core.dto;
 public abstract class AbstractDappCode {
     protected String dappId;
     protected Double amount;
+    protected String currency;
     protected String description;
     protected String reference;
 
@@ -12,6 +13,10 @@ public abstract class AbstractDappCode {
 
     public Double getAmount() {
         return amount;
+    }
+
+    public String getCurrency() {
+        return  currency;
     }
 
     public String getDescription() {

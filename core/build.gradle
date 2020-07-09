@@ -10,7 +10,7 @@ ext {
 
     publishedGroupId = "mx.dapp.sdk"
     artifact = "core"
-    libraryVersion = "2.1.0"
+    libraryVersion = "2.2.0"
 
     libraryDescription = ""
     siteUrl = "https://dapp.mx"
@@ -28,8 +28,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 2
-        versionName "2.1.0"
+        versionCode 3
+        versionName "2.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

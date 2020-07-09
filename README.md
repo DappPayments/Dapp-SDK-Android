@@ -22,6 +22,7 @@ Este SDK esta pensado para las aplicaciones de negocios con ventas presenciales.
 ## [Dapp Wallet SDK for Android](wallet)
 
 Este SDK esta pensado para los Wallets electrónicos integrados al ambiente Dapp. Cuenta con dos funciones principales:
+- Tokenizar tarjetas.
 - Leer códigos QR POS integrados al ambiente Dapp.
 - Monitorear el estado y renovar códigos Dapp QR Request to Pay.
 

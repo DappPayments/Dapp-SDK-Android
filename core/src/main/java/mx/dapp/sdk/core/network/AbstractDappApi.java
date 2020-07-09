@@ -63,4 +63,18 @@ public abstract class AbstractDappApi {
     public abstract String getHttpUrl();
 
     public abstract String getSocketUrl();
+
+    public void card(String cardNumber, String cardHolder, String expMonth, String expYear, String cvv, String email, String telefono, DappResponseProcess responseHandler) {
+        HashMap<String, String> postValues = new HashMap<>();
+
+        postValues.put("card_number", DappEncryption.rsaEncrypt(cardNumber));
+        postValues.put("cardholder", DappEncryption.rsaEncrypt(cardHolder));
+        postValues.put("cvv", DappEncryption.rsaEncrypt(cvv));
+        postValues.put("exp_month", DappEncryption.rsaEncrypt(expMonth));
+        postValues.put("exp_year", DappEncryption.rsaEncrypt(expYear));
+        postValues.put("email", DappEncryption.rsaEncrypt(email));
+        postValues.put("phone_number", DappEncryption.rsaEncrypt(telefono));
+
+        execute(postValues, "cards/", responseHandler);
+    }
 }

@@ -1,5 +1,7 @@
 ﻿# Dapp Wallet SDK for Android
+
 Este SDK esta pensado para los Wallets electrónicos integrados al ambiente Dapp. Cuenta con dos funciones principales:
+
 - Leer códigos QR POS integrados al ambiente Dapp.
 - Monitorear el estado y renovar códigos Dapp QR Request to Pay.
 
@@ -22,8 +24,8 @@ Este SDK esta pensado para los Wallets electrónicos integrados al ambiente Dapp
 ```java
 
         dependencies {
-          implementation 'mx.dapp.sdk:core:2.1.0'
-          implementation 'mx.dapp.sdk:wallet:2.1.0'
+          implementation 'mx.dapp.sdk:core:2.2.0'
+          implementation 'mx.dapp.sdk:wallet:2.2.0'
         }
 ```
 
@@ -44,6 +46,39 @@ De forma estándar el SDK monitorea el estado de los códigos QR POS vía petici
 
 ```java
         Dapp.init(your_api_key, DappEnviroment.SANDBOX, requireContext());
+```
+
+## TOKENIZAR TARJETAS
+Tokeniza las tarjetas de tus usuarios, guarda la referencia en tu base de datos y realiza pagos con esa tarjeta cuando lo desee el usuario.
+
+```java
+
+    void tokenizeCard() {
+        String card = "5515150180013278";
+        String cardHolder = "Daenerys Targaryen";
+        String cvv = "123";
+        String month = "01";
+        String year = "2030";
+        String email = "daenerys@gameofthrones.com";
+        String phoneNumber = "5512345678";
+
+        try {
+            WalletDappCard.add(card, cardHolder, month, year, cvv, email, phoneNumber, new WalletDappCardCallback() {
+                @Override
+                public void onSuccess(WalletDappCard card) {
+
+                }
+
+                @Override
+                public void onError(DappException exception) {
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 ```
 
 ## CÓDIGOS QR POS

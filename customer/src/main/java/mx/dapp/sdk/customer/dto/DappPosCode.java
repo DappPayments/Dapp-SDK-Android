@@ -22,6 +22,10 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
     private Context context;
     private DappCallback userCallback;
 
+    public DappPosCode(String dappId) {
+        super(dappId);
+    }
+
     public DappPosCode(Double amount, String description, String reference) {
         super(amount, description, reference);
     }
@@ -40,7 +44,8 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
             String host = context.getString(R.string.dapp_callback_host);
             String pathPrefix = context.getString(R.string.dapp_callback_path_prefix);
             String scheme = context.getString(R.string.dapp_callback_scheme);
-            String urlCallback = scheme + "://" + host + pathPrefix;
+            String wallet = context.getString(R.string.dapp_wallet_scheme);
+            String urlCallback = wallet.isEmpty() ? scheme + "://" + host + pathPrefix : wallet;
             i.putExtra(DAPP_CALLBACK_URL_REQUEST, urlCallback);
             PackageManager packageManager = context.getPackageManager();
             if (i.resolveActivity(packageManager) != null) {

@@ -3,4 +3,5 @@
     <string name="dapp_callback_host"> </string>
     <string name="dapp_callback_path_prefix"> </string>
     <string name="dapp_callback_scheme"> </string>
+    <string name="dapp_wallet_scheme"> </string>
 </resources>

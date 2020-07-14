@@ -13,14 +13,22 @@ public abstract class AbstractDappPosCode extends AbstractDappCode {
         this.reference = reference;
     }
 
+    public AbstractDappPosCode(String dappId) {
+        this.dappId = dappId;
+    }
+
     public void create(final DappPosCodeCallback callback) {
-        DappApi dappApi = new DappApi();
-        dappApi.dappCode(amount.toString(), description, reference, new DappResponseProcess(callback) {
-            @Override
-            public void processSuccess(JSONObject data) {
-                dappId = data.optString("id");
-                callback.onSuccess();
-            }
-        });
+        if (dappId != null) {
+            callback.onSuccess();
+        } else {
+            DappApi dappApi = new DappApi();
+            dappApi.dappCode(amount.toString(), description, reference, new DappResponseProcess(callback) {
+                @Override
+                public void processSuccess(JSONObject data) {
+                    dappId = data.optString("id");
+                    callback.onSuccess();
+                }
+            });
+        }
     }
 }

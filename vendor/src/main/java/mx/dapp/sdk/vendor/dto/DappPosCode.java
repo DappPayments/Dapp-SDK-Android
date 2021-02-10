@@ -2,20 +2,31 @@ package mx.dapp.sdk.vendor.dto;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.NonNull;
+
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import org.json.JSONObject;
+
 import java.util.EnumMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import mx.dapp.sdk.core.callbacks.DappCallback;
 import mx.dapp.sdk.core.callbacks.DappPaymentCallback;
 import mx.dapp.sdk.core.callbacks.DappPosCodeCallback;
 import mx.dapp.sdk.core.dto.AbstractDappPosCode;
+import mx.dapp.sdk.core.dto.DappPayment;
+import mx.dapp.sdk.core.enums.DappResult;
 import mx.dapp.sdk.core.exceptions.DappException;
+import mx.dapp.sdk.core.network.http.DappResponseProcess;
 import mx.dapp.sdk.vendor.callbacks.DappCodePoSImageCallback;
+import mx.dapp.sdk.vendor.callbacks.DappCodePosPushNotificationCallback;
 import mx.dapp.sdk.vendor.handler.PoSCodeHandler;
+import mx.dapp.sdk.vendor.network.DappVendorApi;
 
 public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallback {
 
@@ -53,7 +64,7 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
     }
 
     private Bitmap generateQRBitmap() throws WriterException {
-        EnumMap<EncodeHintType, Object> hint = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
+        EnumMap<EncodeHintType, Object> hint = new EnumMap<>(EncodeHintType.class);
         hint.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         hint.put(EncodeHintType.MARGIN, 0);
         BitMatrix bitMatrix = new QRCodeWriter().encode("https://dapp.mx/c/" + dappId, com.google.zxing.BarcodeFormat.QR_CODE, width, heigth, hint);
@@ -81,6 +92,26 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
 
     public void stopListening() {
         poSCodeHandler.stopRequest();
+    }
+
+    public void sendPushNotification(String phoneNumber, final DappCodePosPushNotificationCallback callback) {
+        if (dappId != null && isValidPhoneNumber(phoneNumber)) {
+            DappVendorApi api = new DappVendorApi();
+            api.sendPushNotification(dappId, phoneNumber, new DappResponseProcess(callback) {
+                @Override
+                public void processSuccess(JSONObject data) {
+                    callback.onSuccess();
+                }
+            });
+        } else {
+            callback.onError(new DappException(DappResult.RESULT_INVALID_DATA));
+        }
+    }
+
+    private boolean isValidPhoneNumber(@NonNull String phoneNumber) {
+        Pattern regex = Pattern.compile("^[0-9]{10}$");
+        Matcher mat = regex.matcher(phoneNumber);
+        return mat.matches();
     }
 
 }

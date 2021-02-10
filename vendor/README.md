@@ -23,8 +23,8 @@ Este SDK esta pensado para las aplicaciones de negocios con ventas presenciales.
 ```java
 
         dependencies {
-          implementation 'mx.dapp.sdk:core:2.0.0'
-          implementation 'mx.dapp.sdk:vendor:2.0.0'
+          implementation 'mx.dapp.sdk:core:2.4.0'
+          implementation 'mx.dapp.sdk:vendor:2.1.0'
         }
 ```
 
@@ -88,6 +88,25 @@ Los códigos QR POS, son códigos generados por negocios integrados al ambiente 
 ```java
         dappPosCode.stopListening();
 ```
+
+6. Envía códigos por push notifications
+
+En caso de que el comercio tenga habilitado cobros CoDi, una vez que el código QR ha sido creado, puede enviarlo a la aplicación CoDi del usuario a través de una push notification con la siguiente función.
+```java
+        dappPosCode.sendPushNotification("5555555555", new DappCodePosPushNotificationCallback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(DappException exception) {
+
+            }
+        });
+```
+
+
 ## CÓDIGOS QR REQUEST TO PAY
 Los códigos QR RP, son códigos generados por usuarios, diseñados para dar permiso al negocio lector de realizar un cobro a su cuenta.
 

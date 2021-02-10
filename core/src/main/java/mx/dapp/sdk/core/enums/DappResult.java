@@ -3,7 +3,8 @@ package mx.dapp.sdk.core.enums;
 public enum DappResult {
     RESULT_DEFAULT(-1, "An error has occurred"),
     RESULT_RESPONSE_ERROR(-4, "An error has occurred processing the server response."),
-    RESULT_DATE_PARSE_ERROR(-88, "An error has occurred parsing dates.");
+    RESULT_DATE_PARSE_ERROR(-88, "An error has occurred parsing dates."),
+    RESULT_INVALID_DATA(-100, "Invalid data.");
     int code;
     String message;
 

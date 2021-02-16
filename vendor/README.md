@@ -14,7 +14,7 @@ Este SDK esta pensado para las aplicaciones de negocios con ventas presenciales.
 ```java
 
         repositories {
-          jcenter()
+          mavenCentral()
         }
 ```
 
@@ -23,8 +23,8 @@ Este SDK esta pensado para las aplicaciones de negocios con ventas presenciales.
 ```java
 
         dependencies {
-          implementation 'mx.dapp.sdk:core:2.4.0'
-          implementation 'mx.dapp.sdk:vendor:2.1.0'
+          implementation 'mx.dapp.sdk:core:2.4.0@aar'
+          implementation 'mx.dapp.sdk:vendor:2.1.0@aar'
         }
 ```
 

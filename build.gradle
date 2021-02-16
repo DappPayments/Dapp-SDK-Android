@@ -3,21 +3,24 @@
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        jcenter() {
+            content {
+                // https://youtrack.jetbrains.com/issue/IDEA-261387
+                includeModule("org.jetbrains.trove4j", "trove4j")
+            }
+        }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.3'
-
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.android.tools.build:gradle:4.1.2'
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 

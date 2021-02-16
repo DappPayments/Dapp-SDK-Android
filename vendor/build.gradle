@@ -1,18 +1,13 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
 
 ext {
-    bintrayRepo = "Dapp"
-    bintrayName = "mx.dapp.sdk.vendor"
     libraryName = "vendor"
-    userOrganization = "dapppayments"
 
     publishedGroupId = "mx.dapp.sdk"
     artifact = "vendor"
-    libraryVersion = "2.0.0"
+    libraryVersion = "2.1.0"
 
-    libraryDescription = ""
+    libraryDescription = "DappMX Vendor SDK"
     siteUrl = "https://dapp.mx"
     gitUrl = ""
     developerId = ""
@@ -48,4 +43,4 @@ dependencies {
     compileOnly project(path: ':core')
 }
 
-apply from: 'publish.gradle'
+apply from: "${rootProject.projectDir}/scripts/publish.gradle"

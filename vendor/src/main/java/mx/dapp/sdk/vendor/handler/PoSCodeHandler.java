@@ -51,14 +51,14 @@ public class PoSCodeHandler extends AbstractStatusHandler {
         DappVendorApi dappVendorApi = new DappVendorApi();
         dappVendorApi.paymentStatusByService(code, new DappResponseProcess(callback) {
             @Override
-            public void processSuccess(JSONObject data) {
+            public void processSuccess(Object data) {
                 if (data == null) {
                     if (timerHandler == null) {
                         timerHandler = new Handler();
                     }
                     timerHandler.postDelayed(timerRunnable, AUTOMATIC_SECONDS * 1000);
                 } else {
-                    DappPayment payment = new DappPayment(data);
+                    DappPayment payment = new DappPayment((JSONObject)data);
                     callback.onSuccess(payment);
                 }
             }

@@ -24,8 +24,8 @@ Este SDK esta pensado para los Wallets electrónicos integrados al ambiente Dapp
 ```java
 
         dependencies {
-          implementation 'mx.dapp.sdk:core:2.4.0@aar'
-          implementation 'mx.dapp.sdk:wallet:2.2.0@aar'
+          implementation 'mx.dapp.sdk:core:2.5.0@aar'
+          implementation 'mx.dapp.sdk:wallet:2.3.0@aar'
         }
 ```
 

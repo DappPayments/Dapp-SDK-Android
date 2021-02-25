@@ -27,8 +27,8 @@ import mx.dapp.sdk.core.network.tls.Tls12SocketFactory;
 public class DappHttpClient extends AsyncTask<String, Long, String> {
     private DappResponseProcess dappResponseProcess;
     private HashMap<String, String> postValues;
-    private String header;
-    private String method = "GET";
+    private final String header;
+    private final String method;
     private static Exception exception;
 
     private String performGetCall(String requestUrl) {
@@ -209,7 +209,7 @@ public class DappHttpClient extends AsyncTask<String, Long, String> {
         if (rc != 0) {
             dappResponseProcess.onError(rc, msg);
         } else {
-            dappResponseProcess.processSuccess((JSONObject) data);
+            dappResponseProcess.processSuccess(data);
         }
     }
 

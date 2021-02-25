@@ -65,14 +65,14 @@ public class DappPosCode extends AbstractDappCode implements Parcelable {
         DappWalletApi dappWalletApi = new DappWalletApi();
         dappWalletApi.dappCode(code, new DappResponseProcess(callback) {
             @Override
-            public void processSuccess(JSONObject data) {
-                jsonObject = data;
-                dappId = data.optString("id");
-                amount = data.optDouble("amount");
-                currency = data.optString("currency");
-                description = data.optString("description");
-                reference = data.optString("referencia");
-                dappUser = new DappUser(data.optJSONObject("dapp_user"));
+            public void processSuccess(Object data) {
+                jsonObject = (JSONObject)data;
+                dappId = jsonObject.optString("id");
+                amount = jsonObject.optDouble("amount");
+                currency = jsonObject.optString("currency");
+                description = jsonObject.optString("description");
+                reference = jsonObject.optString("referencia");
+                dappUser = new DappUser(jsonObject.optJSONObject("dapp_user"));
                 callback.onSuccess();
             }
         });

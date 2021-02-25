@@ -18,8 +18,8 @@ public class DappRPCode extends AbstractDappRPCode {
         DappVendorApi api = new DappVendorApi();
         api.paymentCode(qrString, amount.toString(), description, reference, new DappResponseProcess(callback) {
             @Override
-            public void processSuccess(JSONObject data) {
-                DappPayment payment = new DappPayment(data);
+            public void processSuccess(Object data) {
+                DappPayment payment = new DappPayment((JSONObject) data);
                 callback.onSuccess(payment);
             }
         });

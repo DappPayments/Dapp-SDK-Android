@@ -24,8 +24,8 @@ public abstract class AbstractDappPosCode extends AbstractDappCode {
             DappApi dappApi = new DappApi();
             dappApi.dappCode(amount.toString(), description, reference, new DappResponseProcess(callback) {
                 @Override
-                public void processSuccess(JSONObject data) {
-                    dappId = data.optString("id");
+                public void processSuccess(Object data) {
+                    dappId = ((JSONObject)data).optString("id");
                     callback.onSuccess();
                 }
             });

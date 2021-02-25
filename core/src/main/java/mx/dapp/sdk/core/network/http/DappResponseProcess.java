@@ -16,7 +16,7 @@ public abstract class DappResponseProcess {
         this.callback = callback;
     }
 
-    public abstract void processSuccess(JSONObject data);
+    public abstract void processSuccess(Object data);
 
     public void onError(int rc, String msg) {
         callback.onError(new DappException(msg, rc));

@@ -23,8 +23,8 @@ Este SDK esta pensado para las aplicaciones de negocios con ventas presenciales.
 ```java
 
         dependencies {
-          implementation 'mx.dapp.sdk:core:2.4.0@aar'
-          implementation 'mx.dapp.sdk:vendor:2.1.0@aar'
+          implementation 'mx.dapp.sdk:core:2.5.0@aar'
+          implementation 'mx.dapp.sdk:vendor:2.2.0@aar'
         }
 ```
 
@@ -89,9 +89,42 @@ Los códigos QR POS, son códigos generados por negocios integrados al ambiente 
         dappPosCode.stopListening();
 ```
 
-6. Envía códigos por push notifications
+6. Envía códigos POS por push notifications
 
-En caso de que el comercio tenga habilitado cobros CoDi, una vez que el código QR ha sido creado, puede enviarlo a la aplicación CoDi del usuario a través de una push notification con la siguiente función.
+El comercio puede hacer llegar el cobro al dispositivo de su cliente mediante una notificación push. Para realizar esto, primero debe obtener las apps disponibles para este flujo con la siguiente función.
+```java
+        DappPosCode.getPushNotificationDestinations(new DappCodePushNotificationDestination() {
+                            @Override
+                            public void onSuccess(List<DappWallet> destinations) {
+                                mDestinations = destinations;
+                            }
+
+                            @Override
+                            public void onError(DappException exception) {
+
+                            }
+                        });
+```
+
+Una vez generado el código de cobro y seleccionada la aplicación del cliente llama a la función _sendPushNotification(phoneNumber, destination)_ del objeto _DappPOSCode_.
+```java
+        dappPosCode.sendPushNotification("5555555555", mDestinations.get(0), new DappCodePosPushNotificationCallback() {
+                            @Override
+                            public void onSuccess() {
+
+                            }
+
+                            @Override
+                            public void onError(DappException exception) {
+
+                            }
+                        });
+```
+
+
+7. Enviar cobro CoDi por push notification
+
+En caso de que el comercio solo tenga habilitado cobros CoDi, una vez que el código QR ha sido creado, puede enviarlo a la aplicación CoDi del usuario a través de una push notification con la siguiente función.
 ```java
         dappPosCode.sendPushNotification("5555555555", new DappCodePosPushNotificationCallback() {
             @Override

@@ -9,9 +9,12 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,12 +22,12 @@ import mx.dapp.sdk.core.callbacks.DappCallback;
 import mx.dapp.sdk.core.callbacks.DappPaymentCallback;
 import mx.dapp.sdk.core.callbacks.DappPosCodeCallback;
 import mx.dapp.sdk.core.dto.AbstractDappPosCode;
-import mx.dapp.sdk.core.dto.DappPayment;
 import mx.dapp.sdk.core.enums.DappResult;
 import mx.dapp.sdk.core.exceptions.DappException;
 import mx.dapp.sdk.core.network.http.DappResponseProcess;
 import mx.dapp.sdk.vendor.callbacks.DappCodePoSImageCallback;
 import mx.dapp.sdk.vendor.callbacks.DappCodePosPushNotificationCallback;
+import mx.dapp.sdk.vendor.callbacks.DappCodePushNotificationDestination;
 import mx.dapp.sdk.vendor.handler.PoSCodeHandler;
 import mx.dapp.sdk.vendor.network.DappVendorApi;
 
@@ -94,18 +97,47 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
         poSCodeHandler.stopRequest();
     }
 
-    public void sendPushNotification(String phoneNumber, final DappCodePosPushNotificationCallback callback) {
+    public void sendCodiPushNotification(String phoneNumber, final DappCodePosPushNotificationCallback callback) {
         if (dappId != null && isValidPhoneNumber(phoneNumber)) {
             DappVendorApi api = new DappVendorApi();
             api.sendPushNotification(dappId, phoneNumber, new DappResponseProcess(callback) {
                 @Override
-                public void processSuccess(JSONObject data) {
+                public void processSuccess(Object data) {
                     callback.onSuccess();
                 }
             });
         } else {
             callback.onError(new DappException(DappResult.RESULT_INVALID_DATA));
         }
+    }
+
+    public void sendPushNotification(String phoneNumber, DappWallet destination, final DappCodePosPushNotificationCallback callback) {
+        if (dappId != null && isValidPhoneNumber(phoneNumber) && destination != null) {
+            DappVendorApi api = new DappVendorApi();
+            api.dappCodePush(dappId, phoneNumber, destination.id, new DappResponseProcess(callback) {
+                @Override
+                public void processSuccess(Object data) {
+                    callback.onSuccess();
+                }
+            });
+        } else {
+            callback.onError(new DappException(DappResult.RESULT_INVALID_DATA));
+        }
+    }
+
+    public static void getPushNotificationDestinations(final DappCodePushNotificationDestination callback) {
+        DappVendorApi api = new DappVendorApi();
+        api.dappCodePushDestinations(new DappResponseProcess(callback) {
+            @Override
+            public void processSuccess(Object data) {
+                JSONArray destinations = (JSONArray) data;
+                List<DappWallet> result = new ArrayList<>();
+                for (int i = 0; i < destinations.length(); i++) {
+                    result.add(new DappWallet(destinations.optJSONObject(i)));
+                }
+                callback.onSuccess(result);
+            }
+        });
     }
 
     private boolean isValidPhoneNumber(@NonNull String phoneNumber) {

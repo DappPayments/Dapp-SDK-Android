@@ -68,7 +68,7 @@ public class RPCodeStatusHandler extends AbstractStatusHandler {
         DappWalletApi dappWalletApi = new DappWalletApi();
         dappWalletApi.paymentStatus(code, new DappResponseProcess(callback) {
             @Override
-            public void processSuccess(JSONObject data) {
+            public void processSuccess(Object data) {
                 if (data == null) {
                     if (timerHandler == null) {
                         timerHandler = new Handler();
@@ -77,7 +77,7 @@ public class RPCodeStatusHandler extends AbstractStatusHandler {
                 } else {
                     removeExpirationTimer();
                     removeReadExpirationTimer();
-                    DappPayment payment = new DappPayment(data);
+                    DappPayment payment = new DappPayment((JSONObject)data);
                     callback.onPay(payment);
                 }
             }
@@ -108,12 +108,12 @@ public class RPCodeStatusHandler extends AbstractStatusHandler {
         DappWalletApi dappWalletApi = new DappWalletApi();
         dappWalletApi.renewPaymentCode(code, new DappResponseProcess(callback) {
             @Override
-            public void processSuccess(JSONObject data) {
+            public void processSuccess(Object data) {
                 if (data == null) {
                     callback.onError(new DappException(DappResult.RESULT_RESPONSE_ERROR));
                 } else {
                     try {
-                        getRenewedCodeInfo(data);
+                        getRenewedCodeInfo((JSONObject)data);
                     } catch (Exception e) {
                         callback.onError(new DappException(DappResult.RESULT_DATE_PARSE_ERROR));
                     }
@@ -146,7 +146,7 @@ public class RPCodeStatusHandler extends AbstractStatusHandler {
         DappWalletApi dappWalletApi = new DappWalletApi();
         dappWalletApi.deletePaymentCode(code, new DappResponseProcess(callback) {
             @Override
-            public void processSuccess(JSONObject data) {
+            public void processSuccess(Object data) {
                 if (!isListening) {
                     callback.onDelete();
                 }

@@ -21,8 +21,8 @@ public class DappCard extends AbstractDappCard {
             DappApi api = new DappApi();
             api.card(cardNumber, cardHolder, expMonth, expYear, cvv, email, phoneNumber, new DappResponseProcess(callback) {
                 @Override
-                public void processSuccess(JSONObject data) {
-                    DappCard card = new DappCard(data);
+                public void processSuccess(Object data) {
+                    DappCard card = new DappCard((JSONObject)data);
                     callback.onSuccess(card);
                 }
             });

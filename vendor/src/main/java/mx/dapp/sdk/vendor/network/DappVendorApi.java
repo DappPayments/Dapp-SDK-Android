@@ -40,6 +40,19 @@ public class DappVendorApi extends DappApi {
         execute(postValues, "/dapp-codes/" + code + "/codi/push/", responseHandler);
     }
 
+    public void dappCodePush(String code, String phoneNumber, String destinationId, DappResponseProcess responseHandler){
+        HashMap<String, String> postValues = new HashMap<>();
+        postValues.put("phone", phoneNumber);
+        postValues.put("destination", destinationId);
+
+        execute(postValues, "/dapp-codes/" + code + "/push/", responseHandler);
+
+    }
+
+    public void dappCodePushDestinations(DappResponseProcess responseHandler){
+        execute("/dapp-codes/push/destinations/", responseHandler);
+    }
+
     public WebSocket paymentStatusBySocket(String code, DappSocketStatusCallback callback) {
         DappWsClient dappWsClient = new DappWsClient(getSocketUrl() + "dapp-code/" + code + "/", getHeader(), callback);
         return dappWsClient.createSocket();

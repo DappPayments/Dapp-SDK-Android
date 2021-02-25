@@ -42,8 +42,8 @@ public class DappVendorScannerActivity extends DappScannerActivity {
         DappVendorApi api = new DappVendorApi();
         api.paymentCode(result, amount.toString(), description, reference, new DappResponseProcess(this) {
             @Override
-            public void processSuccess(JSONObject data) {
-                DappPayment payment = new DappPayment(data);
+            public void processSuccess(Object data) {
+                DappPayment payment = new DappPayment((JSONObject)data);
                 getIntent().putExtra(PAYMENT, payment);
                 setResult(RESULT_OK, getIntent());
                 finish();

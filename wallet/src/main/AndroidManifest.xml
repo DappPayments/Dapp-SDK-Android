@@ -9,9 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".scanner.DappWalletScannerActivity"></activity>
         <activity
-            android:name=".gui.DappReaderActivity"
+            android:name=".scanner.DappWalletScannerActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|screenLayout|orientation"
             android:label="@string/title_activity_reader"
             android:screenOrientation="portrait" />

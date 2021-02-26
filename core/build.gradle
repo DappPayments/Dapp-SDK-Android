@@ -25,7 +25,6 @@ android {
         targetSdkVersion 29
         versionCode 4
         versionName "2.5.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -33,18 +32,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly 'com.google.android.gms:play-services-base:+'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     compileOnly 'me.dm7.barcodescanner:zxing:1.9.13'
     compileOnly 'com.google.zxing:core:3.4.0'
     compileOnly 'com.squareup.okhttp3:okhttp:3.12.1'
+    compileOnly 'androidx.appcompat:appcompat:1.2.0'
+    compileOnly 'androidx.constraintlayout:constraintlayout:2.0.4'
 }
 
 apply from: "${rootProject.projectDir}/scripts/publish.gradle"

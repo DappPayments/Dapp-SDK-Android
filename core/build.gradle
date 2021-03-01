@@ -21,7 +21,7 @@ ext {
 android {
     compileSdkVersion 29
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 4
         versionName "2.5.0"
@@ -37,11 +37,18 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly 'com.google.android.gms:play-services-base:+'
-    compileOnly 'me.dm7.barcodescanner:zxing:1.9.13'
-    compileOnly 'com.google.zxing:core:3.4.0'
-    compileOnly 'com.squareup.okhttp3:okhttp:3.12.1'
+    compileOnly 'com.squareup.okhttp3:okhttp:4.2.1'
     compileOnly 'androidx.appcompat:appcompat:1.2.0'
     compileOnly 'androidx.constraintlayout:constraintlayout:2.0.4'
+    //ML Kit Barcode Scanning
+    compileOnly 'com.google.mlkit:barcode-scanning:16.1.1'
+
+    //CameraX Dependencies
+    compileOnly "androidx.camera:camera-core:1.1.0-alpha02"
+    compileOnly "androidx.camera:camera-camera2:1.1.0-alpha02"
+    compileOnly "androidx.camera:camera-lifecycle:1.1.0-alpha02"
+    compileOnly "androidx.camera:camera-view:1.0.0-alpha22"
+    compileOnly "androidx.camera:camera-extensions:1.0.0-alpha22"
 }
 
 apply from: "${rootProject.projectDir}/scripts/publish.gradle"

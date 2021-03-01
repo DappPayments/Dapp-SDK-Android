@@ -163,9 +163,36 @@ void codeScanned(String qrString) {
     });
 ```
 ## LECTOR DE CÓDIGOS QR RP
-Para utilizar esta funcionalidad agrege la dependencia a la libreria [barcodescanner](https://github.com/dm77/barcodescanner):
+Para utilizar esta funcionalidad agrege las dependencias a las librerias [CameraX](https://developer.android.com/jetpack/androidx/releases/camera) y [ML Kit Barcode Scanning](https://developers.google.com/ml-kit/vision/barcode-scanning/android):
 ```java
-    implementation 'me.dm7.barcodescanner:zxing:1.9.13'
+    //ML Kit Barcode Scanning
+    implementation 'com.google.mlkit:barcode-scanning:16.1.1'
+
+    //CameraX Dependencies
+    implementation "androidx.camera:camera-core:1.1.0-alpha02"
+    implementation "androidx.camera:camera-camera2:1.1.0-alpha02"
+    implementation "androidx.camera:camera-lifecycle:1.1.0-alpha02"
+    implementation "androidx.camera:camera-view:1.0.0-alpha22"
+    implementation "androidx.camera:camera-extensions:1.0.0-alpha22"
+    implementation 'com.google.android.material:material:1.4.0-alpha01'
+```
+La versión de compilación y mínima del SDK debe ser 29 y 21 respectivamente o superior:
+```java
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        minSdkVersion 21
+    }
+}
+```
+Agregue las opciones de compilación para Java:
+```java
+android {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
 ```
 
 Las funciones del lector se pueden implementar de dos formas:

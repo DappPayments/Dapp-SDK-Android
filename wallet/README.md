@@ -36,7 +36,7 @@ De forma estándar el SDK monitorea el estado de los códigos QR POS vía petici
 ```java
 
         dependencies {
-          implementation 'com.squareup.okhttp3:okhttp:3.12.1'
+          implementation 'com.squareup.okhttp3:okhttp:4.2.1'
         }
 ```
 

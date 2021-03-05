@@ -263,8 +263,8 @@ Un código QR RP solo se puede crear desde el servidor del wallet. Las funciones
 1. Crea un objeto _DappRPCode_ y asignale un _DappRPCodeCallback_
 ```java
     
-    void generateRPCodeWithDataFromYourServer(String id, Date readDate, Date renewDate) {
-        DappRPCode code = DappRPCode(id, readDate, renewDate, new DappRPCodeCallback() {
+    void generateRPCodeWithDataFromYourServer(String id, String qrString, Date readDate, Date renewDate) {
+        DappRPCode code = DappRPCode(id, qrString, readDate, renewDate, new DappRPCodeCallback() {
             @Override
             public void onPay(DappPayment payment) {
                             

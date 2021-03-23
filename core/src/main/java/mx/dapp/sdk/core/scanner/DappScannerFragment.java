@@ -119,6 +119,7 @@ public class DappScannerFragment extends Fragment implements DappImageAnalyzerHa
         DappImageAnalyzer analyzer = new DappImageAnalyzer(this);
         imageAnalysis.setAnalyzer(cameraExecutor, analyzer);
 
+        cameraProvider.unbindAll();
         cameraProvider.bindToLifecycle(
                 this,
                 cameraSelector,

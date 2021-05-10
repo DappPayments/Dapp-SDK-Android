@@ -7,6 +7,9 @@ import mx.dapp.sdk.core.network.DappApi;
 import mx.dapp.sdk.core.network.http.DappResponseProcess;
 
 public abstract class AbstractDappPosCode extends AbstractDappCode {
+
+    protected String qrText;
+
     public AbstractDappPosCode(Double amount, String description, String reference) {
         this.amount = amount;
         this.description = description;
@@ -25,7 +28,9 @@ public abstract class AbstractDappPosCode extends AbstractDappCode {
             dappApi.dappCode(amount.toString(), description, reference, new DappResponseProcess(callback) {
                 @Override
                 public void processSuccess(Object data) {
-                    dappId = ((JSONObject)data).optString("id");
+                    JSONObject result = ((JSONObject)data);
+                    dappId = result.optString("id");
+                    qrText = result.optString("qr_str");
                     callback.onSuccess();
                 }
             });

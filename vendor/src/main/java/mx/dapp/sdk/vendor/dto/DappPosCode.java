@@ -70,7 +70,7 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
         EnumMap<EncodeHintType, Object> hint = new EnumMap<>(EncodeHintType.class);
         hint.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         hint.put(EncodeHintType.MARGIN, 0);
-        BitMatrix bitMatrix = new QRCodeWriter().encode("https://dapp.mx/c/" + dappId, com.google.zxing.BarcodeFormat.QR_CODE, width, heigth, hint);
+        BitMatrix bitMatrix = new QRCodeWriter().encode(qrText, com.google.zxing.BarcodeFormat.QR_CODE, width, heigth, hint);
 
         int width = bitMatrix.getWidth();
         int height = bitMatrix.getHeight();

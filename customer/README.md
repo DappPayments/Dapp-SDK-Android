@@ -24,7 +24,7 @@ Este SDK está pensado para las aplicaciones de negocios con ventas no presencia
 ```java
 
         dependencies {
-          implementation 'mx.dapp.sdk:core:2.5.0@aar'
+          implementation 'mx.dapp.sdk:core:2.6.0@aar'
           implementation 'mx.dapp.sdk:customer:2.3.0@aar'
         }
 ```

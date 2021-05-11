@@ -36,4 +36,8 @@ public abstract class AbstractDappPosCode extends AbstractDappCode {
             });
         }
     }
+
+    public String getQrText() {
+        return qrText;
+    }
 }

@@ -77,6 +77,23 @@ Los códigos QR POS, son códigos generados por negocios integrados al ambiente 
         });
 ```
 
+3.1 Genera el código sin imagen
+
+```java
+        dappPosCode.create(new DappCodePoSCallback() {
+               @Override
+               public void onSuccess() {
+                    //Accede a los atributos del objeto DappPosCode
+                    String qrText = dappPosCode.getQrText();
+               }
+   
+               @Override
+               public void onError(DappException exception) {
+               
+               }
+           });
+```
+
 
 4. Empieza a monitorear el estado de pago del código con la función _listen_
 

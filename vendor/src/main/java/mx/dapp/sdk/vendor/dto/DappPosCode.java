@@ -42,6 +42,10 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
         super(amount, description, reference);
     }
 
+    public DappPosCode(Double amount, String description, String reference, int expirationMinutes) {
+        super(amount, description, reference, expirationMinutes);
+    }
+
     public void createWithImage(int height, int width, final DappCodePoSImageCallback callback) {
         this.heigth = height;
         this.width = width;

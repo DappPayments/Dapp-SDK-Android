@@ -23,8 +23,8 @@ Este SDK esta pensado para las aplicaciones de negocios con ventas presenciales.
 ```java
 
         dependencies {
-          implementation 'mx.dapp.sdk:core:2.6.0@aar'
-          implementation 'mx.dapp.sdk:vendor:2.3.0@aar'
+          implementation 'mx.dapp.sdk:core:2.6.1@aar'
+          implementation 'mx.dapp.sdk:vendor:2.3.1@aar'
         }
 ```
 
@@ -61,6 +61,11 @@ Los códigos QR POS, son códigos generados por negocios integrados al ambiente 
        DappPosCode dappPosCode = new DappPosCode(10.0, "my description", "my reference");
 ```
 
+2.1 Crea un objeto **DappPosCode** pasando adicionalmente el párametro _expirationMinutes_.
+```java
+       DappPosCode dappPosCode = new DappPosCode(10.0, "my description", "my reference", 5);
+```
+
 3. Genera el código.
 
 ```java
@@ -85,6 +90,7 @@ Los códigos QR POS, son códigos generados por negocios integrados al ambiente 
                public void onSuccess() {
                     //Accede a los atributos del objeto DappPosCode
                     String qrText = dappPosCode.getQrText();
+                    String urlImage = dappPosCode.getUrlImage();
                }
    
                @Override

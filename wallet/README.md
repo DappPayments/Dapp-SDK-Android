@@ -1,9 +1,6 @@
 ﻿# Dapp Wallet SDK for Android
 
-Este SDK esta pensado para los Wallets electrónicos integrados al ambiente Dapp. Cuenta con dos funciones principales:
-
-- Leer códigos QR POS integrados al ambiente Dapp.
-- Monitorear el estado y renovar códigos Dapp QR Request to Pay.
+Este SDK está pensado para los Wallets electrónicos integrados al ambiente Dapp. Su función principal es leer códigos QR POS integrados al ambiente Dapp.
 
 ## INSTALACIÓN
 
@@ -46,39 +43,6 @@ De forma estándar el SDK monitorea el estado de los códigos QR POS vía petici
 
 ```java
         Dapp.init(your_api_key, DappEnviroment.SANDBOX, requireContext());
-```
-
-## TOKENIZAR TARJETAS
-Tokeniza las tarjetas de tus usuarios, guarda la referencia en tu base de datos y realiza pagos con esa tarjeta cuando lo desee el usuario.
-
-```java
-
-    void tokenizeCard() {
-        String card = "5515150180013278";
-        String cardHolder = "Daenerys Targaryen";
-        String cvv = "123";
-        String month = "01";
-        String year = "2030";
-        String email = "daenerys@gameofthrones.com";
-        String phoneNumber = "5512345678";
-
-        try {
-            WalletDappCard.add(card, cardHolder, month, year, cvv, email, phoneNumber, new WalletDappCardCallback() {
-                @Override
-                public void onSuccess(WalletDappCard card) {
-
-                }
-
-                @Override
-                public void onError(DappException exception) {
-
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 ```
 
 ## CÓDIGOS QR POS
@@ -255,68 +219,6 @@ Puedes recibir solicitudes de pago de cualquier app de negocio integrado al ambi
     dappPosCode.returnPayment(paymentIdFromServer);
 ```
 
-## CÓDIGOS QR REQUEST TO PAY
-Los códigos QR RP, son códigos generados por usuarios, diseñados para dar permiso al negocio lector de realizar un cobro a su cuenta.
-
-Un código QR RP solo se puede crear desde el servidor del wallet. Las funciones incluídas dentro de este SDK son renovar, eliminar y monitorear en caso de que se haya realizado un cobro.
-
-1. Crea un objeto _DappRPCode_ y asignale un _DappRPCodeCallback_
-```java
-    
-    void generateRPCodeWithDataFromYourServer(String id, String qrString, Date readDate, Date renewDate) {
-        DappRPCode code = DappRPCode(id, qrString, readDate, renewDate, new DappRPCodeCallback() {
-            @Override
-            public void onPay(DappPayment payment) {
-                            
-            }
-
-            @Override
-            public void onRenew() {
-                            
-            }
-
-            @Override
-            public void onDelete() {
-                            
-            }
-
-            @Override
-            public void onExpire() {
-            
-            }
-
-            @Override
-            public void onError(DappException exception) {
-            
-            }
-
-            @Override
-            public void onReadExpire() {
-                dappRPCode.renew();
-            }
-        });
-    }
-```
-
-2. Empieza a monitorear el estado del código con la función _listen_
-```java
-    dappPosCode.listen()
-```
-
-3. Renueva el código con la función _renew_
-```java
-    dappPosCode.renew()
-```
-
-4. Elimina el código con la función _delete_
-```java
-    dappPosCode.delete()
-```
-
-5. Deja de recibir notificaciones del estado del código con la función _stopListening_
-```java
-    dappPosCode.stopListening()
-```
 ## LICENCIA
 [MIT](../LICENSE.txt)
 

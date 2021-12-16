@@ -57,4 +57,8 @@ public class DappVendorApi extends DappApi {
         DappWsClient dappWsClient = new DappWsClient(getSocketUrl() + "dapp-code/" + code + "/", getHeader(), callback);
         return dappWsClient.createSocket();
     }
+
+    public void dappCodesWallets(DappResponseProcess responseHandler){
+        execute("/dapp-codes/wallets", responseHandler);
+    }
 }

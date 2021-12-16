@@ -28,6 +28,7 @@ import mx.dapp.sdk.core.network.http.DappResponseProcess;
 import mx.dapp.sdk.vendor.callbacks.DappCodePoSImageCallback;
 import mx.dapp.sdk.vendor.callbacks.DappCodePosPushNotificationCallback;
 import mx.dapp.sdk.vendor.callbacks.DappCodePushNotificationDestination;
+import mx.dapp.sdk.vendor.callbacks.DappCodesWalletsCallback;
 import mx.dapp.sdk.vendor.handler.PoSCodeHandler;
 import mx.dapp.sdk.vendor.network.DappVendorApi;
 
@@ -148,6 +149,21 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
         Pattern regex = Pattern.compile("^[0-9]{10}$");
         Matcher mat = regex.matcher(phoneNumber);
         return mat.matches();
+    }
+
+    public static void getWallets(final DappCodesWalletsCallback callback) {
+        DappVendorApi api = new DappVendorApi();
+        api.dappCodesWallets(new DappResponseProcess(callback) {
+            @Override
+            public void processSuccess(Object data) {
+                JSONArray destinations = (JSONArray) data;
+                List<DappWallet> result = new ArrayList<>();
+                for (int i = 0; i < destinations.length(); i++) {
+                    result.add(new DappWallet(destinations.optJSONObject(i)));
+                }
+                callback.onSuccess(result);
+            }
+        });
     }
 
 }

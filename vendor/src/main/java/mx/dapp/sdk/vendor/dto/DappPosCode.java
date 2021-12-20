@@ -3,6 +3,7 @@ package mx.dapp.sdk.vendor.dto;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -39,11 +40,11 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
     private DappCodePoSImageCallback dappCodePoSImageCallback;
     private PoSCodeHandler poSCodeHandler;
 
-    public DappPosCode(Double amount, String description, String reference) {
+    public DappPosCode(Double amount, String description, @Nullable String reference) {
         super(amount, description, reference);
     }
 
-    public DappPosCode(Double amount, String description, String reference, int expirationMinutes) {
+    public DappPosCode(Double amount, String description, @Nullable String reference, int expirationMinutes) {
         super(amount, description, reference, expirationMinutes);
     }
 

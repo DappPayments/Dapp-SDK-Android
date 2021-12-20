@@ -1,5 +1,7 @@
 package mx.dapp.sdk.core.dto;
 
+import androidx.annotation.Nullable;
+
 import org.json.JSONObject;
 
 import mx.dapp.sdk.core.callbacks.DappPosCodeCallback;
@@ -12,13 +14,13 @@ public abstract class AbstractDappPosCode extends AbstractDappCode {
     private String urlImage;
     private int expirationMinutes = -1;
 
-    public AbstractDappPosCode(Double amount, String description, String reference) {
+    public AbstractDappPosCode(Double amount, String description, @Nullable String reference) {
         this.amount = amount;
         this.description = description;
         this.reference = reference;
     }
 
-    public AbstractDappPosCode(Double amount, String description, String reference, int expiratioMinutes) {
+    public AbstractDappPosCode(Double amount, String description, @Nullable String reference, int expiratioMinutes) {
         this.amount = amount;
         this.description = description;
         this.reference = reference;

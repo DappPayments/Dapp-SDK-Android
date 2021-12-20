@@ -11,8 +11,8 @@ import mx.dapp.sdk.core.network.http.DappResponseProcess;
 public abstract class AbstractDappPosCode extends AbstractDappCode {
 
     protected String qrText;
-    private String urlImage;
-    private int expirationMinutes = -1;
+    protected String urlImage;
+    protected int expirationMinutes = -1;
 
     public AbstractDappPosCode(Double amount, String description, @Nullable String reference) {
         this.amount = amount;
@@ -26,6 +26,8 @@ public abstract class AbstractDappPosCode extends AbstractDappCode {
         this.reference = reference;
         this.expirationMinutes = expiratioMinutes;
     }
+
+    protected AbstractDappPosCode(){}
 
     public AbstractDappPosCode(String dappId) {
         this.dappId = dappId;

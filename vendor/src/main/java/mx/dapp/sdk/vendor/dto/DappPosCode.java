@@ -1,6 +1,8 @@
 package mx.dapp.sdk.vendor.dto;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -166,5 +168,4 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
             }
         });
     }
-
 }

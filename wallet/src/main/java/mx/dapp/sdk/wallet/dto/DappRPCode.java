@@ -3,7 +3,6 @@ package mx.dapp.sdk.wallet.dto;
 import java.util.Date;
 
 import mx.dapp.sdk.core.dto.AbstractDappRPCode;
-import mx.dapp.sdk.core.dto.DappPayment;
 import mx.dapp.sdk.core.exceptions.DappException;
 import mx.dapp.sdk.wallet.callbacks.DappRPCodeCallback;
 import mx.dapp.sdk.wallet.callbacks.DappRPCodeStatusCallback;

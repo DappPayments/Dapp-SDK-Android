@@ -1,12 +1,14 @@
 package mx.dapp.sdk.vendor.scanner;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.os.Bundle;
 
 import org.json.JSONObject;
 
-import mx.dapp.sdk.core.dto.DappPayment;
 import mx.dapp.sdk.core.network.http.DappResponseProcess;
 import mx.dapp.sdk.core.scanner.DappScannerActivity;
+import mx.dapp.sdk.vendor.dto.DappPayment;
 import mx.dapp.sdk.vendor.network.DappVendorApi;
 
 public class DappVendorScannerActivity extends DappScannerActivity {

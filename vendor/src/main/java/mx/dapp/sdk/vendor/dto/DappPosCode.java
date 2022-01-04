@@ -1,8 +1,6 @@
 package mx.dapp.sdk.vendor.dto;
 
 import android.graphics.Bitmap;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +11,6 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -22,7 +19,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import mx.dapp.sdk.core.callbacks.DappCallback;
-import mx.dapp.sdk.core.callbacks.DappPaymentCallback;
 import mx.dapp.sdk.core.callbacks.DappPosCodeCallback;
 import mx.dapp.sdk.core.dto.AbstractDappPosCode;
 import mx.dapp.sdk.core.enums.DappResult;
@@ -32,6 +28,7 @@ import mx.dapp.sdk.vendor.callbacks.DappCodePoSImageCallback;
 import mx.dapp.sdk.vendor.callbacks.DappCodePosPushNotificationCallback;
 import mx.dapp.sdk.vendor.callbacks.DappCodePushNotificationDestination;
 import mx.dapp.sdk.vendor.callbacks.DappCodesWalletsCallback;
+import mx.dapp.sdk.vendor.callbacks.DappPaymentCallback;
 import mx.dapp.sdk.vendor.handler.PoSCodeHandler;
 import mx.dapp.sdk.vendor.network.DappVendorApi;
 

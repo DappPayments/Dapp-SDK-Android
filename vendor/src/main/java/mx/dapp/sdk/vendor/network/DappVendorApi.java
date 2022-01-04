@@ -33,14 +33,14 @@ public class DappVendorApi extends DappApi {
         execute("/dapp-codes/" + code + "/payment/", responseHandler);
     }
 
-    public void sendPushNotification(String code, String phoneNumber, DappResponseProcess responseHandler){
+    public void sendPushNotification(String code, String phoneNumber, DappResponseProcess responseHandler) {
         HashMap<String, String> postValues = new HashMap<>();
         postValues.put("phone", phoneNumber);
 
         execute(postValues, "/dapp-codes/" + code + "/codi/push/", responseHandler);
     }
 
-    public void dappCodePush(String code, String phoneNumber, String destinationId, DappResponseProcess responseHandler){
+    public void dappCodePush(String code, String phoneNumber, String destinationId, DappResponseProcess responseHandler) {
         HashMap<String, String> postValues = new HashMap<>();
         postValues.put("phone", phoneNumber);
         postValues.put("destination", destinationId);
@@ -49,7 +49,7 @@ public class DappVendorApi extends DappApi {
 
     }
 
-    public void dappCodePushDestinations(DappResponseProcess responseHandler){
+    public void dappCodePushDestinations(DappResponseProcess responseHandler) {
         execute("/dapp-codes/push/destinations/", responseHandler);
     }
 
@@ -58,7 +58,11 @@ public class DappVendorApi extends DappApi {
         return dappWsClient.createSocket();
     }
 
-    public void dappCodesWallets(DappResponseProcess responseHandler){
+    public void dappCodesWallets(DappResponseProcess responseHandler) {
         execute("/dapp-codes/wallets", responseHandler);
+    }
+
+    public void getPayments(String fecha_inicio, String fecha_fin, DappResponseProcess responseHandler) {
+        execute("/payments?start_date=" + fecha_inicio + "&end_date=" + fecha_fin, responseHandler);
     }
 }

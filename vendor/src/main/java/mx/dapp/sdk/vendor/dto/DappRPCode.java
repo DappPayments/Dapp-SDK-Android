@@ -5,10 +5,9 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import mx.dapp.sdk.core.callbacks.DappPaymentCallback;
 import mx.dapp.sdk.core.dto.AbstractDappRPCode;
-import mx.dapp.sdk.core.dto.DappPayment;
 import mx.dapp.sdk.core.network.http.DappResponseProcess;
+import mx.dapp.sdk.vendor.callbacks.DappPaymentCallback;
 import mx.dapp.sdk.vendor.network.DappVendorApi;
 
 public class DappRPCode extends AbstractDappRPCode implements Parcelable {

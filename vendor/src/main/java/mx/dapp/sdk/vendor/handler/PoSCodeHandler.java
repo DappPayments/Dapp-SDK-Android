@@ -4,12 +4,12 @@ import android.os.Handler;
 
 import org.json.JSONObject;
 
-import mx.dapp.sdk.core.callbacks.DappPaymentCallback;
 import mx.dapp.sdk.core.callbacks.DappSocketStatusCallback;
-import mx.dapp.sdk.core.dto.DappPayment;
 import mx.dapp.sdk.core.exceptions.DappException;
 import mx.dapp.sdk.core.handler.AbstractStatusHandler;
 import mx.dapp.sdk.core.network.http.DappResponseProcess;
+import mx.dapp.sdk.vendor.callbacks.DappPaymentCallback;
+import mx.dapp.sdk.vendor.dto.DappPayment;
 import mx.dapp.sdk.vendor.network.DappVendorApi;
 
 public class PoSCodeHandler extends AbstractStatusHandler {

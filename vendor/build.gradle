@@ -5,7 +5,7 @@ ext {
 
     publishedGroupId = "mx.dapp.sdk"
     artifact = "vendor"
-    libraryVersion = "2.3.1"
+    libraryVersion = "2.3.2"
 
     libraryDescription = "DappMX Vendor SDK"
     siteUrl = "https://dapp.mx"

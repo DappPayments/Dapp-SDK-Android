@@ -5,7 +5,7 @@ ext {
 
     publishedGroupId = "mx.dapp.sdk"
     artifact = "core"
-    libraryVersion = "2.6.1"
+    libraryVersion = "2.6.2"
 
     libraryDescription = "DappMX Core for the Vendor, Customer and Wallet SDKs"
     siteUrl = "https://dapp.mx"

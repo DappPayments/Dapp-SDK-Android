@@ -305,6 +305,26 @@ Las funciones del lector se pueden implementar de dos formas:
 ```java
     boolean isScanning = dappScannerFragment.isScanning()
 ```
+
+## REPORTE DE PAGOS
+
+Obtener un reporte de pagos en un rango de fechas
+
+1. Obtén el listado de pagos especificando una _fechaInicio_ y una _fechaFin_ con el formato **yyyy-MM-dd**
+```java
+    DappPayment.getDappPayments("2021-11-16", "2021-12-16", new DappPaymentsCallback() {
+        @Override
+        public void onSuccess(List<DappPayment> payments) {
+                
+        }
+        
+        @Override
+        public void onError(DappException exception) {
+            
+        }
+    });
+```
+
 ## LICENCIA
 [MIT](../LICENSE.txt)
 

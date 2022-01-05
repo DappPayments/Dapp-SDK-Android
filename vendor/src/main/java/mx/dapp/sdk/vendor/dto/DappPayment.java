@@ -21,9 +21,9 @@ public class DappPayment extends AbstractDappPayment implements Parcelable {
         super(data);
     }
 
-    public static void getDappPayments(String fecha_inicio, String fecha_fin, final DappPaymentsCallback callback){
+    public static void getDappPayments(String fechaInicio, String fechaFin, final DappPaymentsCallback callback){
         DappVendorApi api = new DappVendorApi();
-        api.getPayments(fecha_inicio, fecha_fin, new DappResponseProcess(callback) {
+        api.getPayments(fechaInicio, fechaFin, new DappResponseProcess(callback) {
             @Override
             public void processSuccess(Object data) {
                 JSONArray payments = (JSONArray) data;

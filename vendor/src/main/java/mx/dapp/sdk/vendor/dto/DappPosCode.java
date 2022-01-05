@@ -38,20 +38,27 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
     private int width;
     private DappCodePoSImageCallback dappCodePoSImageCallback;
     private PoSCodeHandler poSCodeHandler;
+    private DappWallet wallet;
 
-    public DappPosCode(Double amount, String description, @Nullable String reference) {
+    public DappPosCode(Double amount, String description, @Nullable String reference, @Nullable DappWallet wallet) {
         super(amount, description, reference);
+        this.wallet = wallet;
     }
 
-    public DappPosCode(Double amount, String description, @Nullable String reference, int expirationMinutes) {
+    public DappPosCode(Double amount, String description, @Nullable String reference, @Nullable DappWallet wallet, int expirationMinutes) {
         super(amount, description, reference, expirationMinutes);
+        this.wallet = wallet;
+    }
+
+    public void create(){
+        create(getQrSource(), this);
     }
 
     public void createWithImage(int height, int width, final DappCodePoSImageCallback callback) {
         this.heigth = height;
         this.width = width;
         this.dappCodePoSImageCallback = callback;
-        create(this);
+        create(getQrSource(), this);
     }
 
     @Override
@@ -164,5 +171,9 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
                 callback.onSuccess(result);
             }
         });
+    }
+
+    private int getQrSource(){
+        return wallet != null ? wallet.getQrSource() : -1;
     }
 }

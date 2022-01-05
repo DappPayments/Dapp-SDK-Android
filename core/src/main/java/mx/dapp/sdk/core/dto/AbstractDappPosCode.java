@@ -33,12 +33,12 @@ public abstract class AbstractDappPosCode extends AbstractDappCode {
         this.dappId = dappId;
     }
 
-    public void create(final DappPosCodeCallback callback) {
+    public void create(int qrSource, final DappPosCodeCallback callback) {
         if (dappId != null) {
             callback.onSuccess();
         } else {
             DappApi dappApi = new DappApi();
-            dappApi.dappCode(amount.toString(), description, reference, expirationMinutes, new DappResponseProcess(callback) {
+            dappApi.dappCode(amount.toString(), description, reference, qrSource, expirationMinutes, new DappResponseProcess(callback) {
                 @Override
                 public void processSuccess(Object data) {
                     JSONObject result = ((JSONObject) data);
@@ -49,6 +49,10 @@ public abstract class AbstractDappPosCode extends AbstractDappCode {
                 }
             });
         }
+    }
+
+    public void create(final DappPosCodeCallback callback){
+        create(-1, callback);
     }
 
     public String getQrText() {

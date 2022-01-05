@@ -56,17 +56,30 @@ Los códigos QR POS, son códigos generados por negocios integrados al ambiente 
     implementation 'com.google.zxing:core:3.4.0'
 ```
 
-2. Crea un objeto **DappPosCode**.
+2. Obtén el listado de wallets que pueden pagar el código que vas a generar
 ```java
-       DappPosCode dappPosCode = new DappPosCode(10.0, "my description", "my reference");
+        DappPosCode.getWallets(new DappCodesWalletsCallback() {
+            @Override
+            public void onSuccess(List<DappWallet> wallets) {
+            }
+
+            @Override
+            public void onError(DappException exception) {
+            }
+        });
 ```
 
-2.1 Crea un objeto **DappPosCode** pasando adicionalmente el párametro _expirationMinutes_.
+3. Seleccionado el Wallet crea un objeto **DappPosCode**.
 ```java
-       DappPosCode dappPosCode = new DappPosCode(10.0, "my description", "my reference", 5);
+       DappPosCode dappPosCode = new DappPosCode(10.0, "my description", "my reference", wallets[0]);
 ```
 
-3. Genera el código.
+3.1 Crea un objeto **DappPosCode** pasando adicionalmente el párametro _expirationMinutes_.
+```java
+       DappPosCode dappPosCode = new DappPosCode(10.0, "my description", "my reference", wallets[0], 5);
+```
+
+4. Genera el código.
 
 ```java
         dappPosCode.createWithImage(500, 500, new DappCodePoSImageCallback() {
@@ -82,7 +95,7 @@ Los códigos QR POS, son códigos generados por negocios integrados al ambiente 
         });
 ```
 
-3.1 Genera el código sin imagen
+4.1 Genera el código sin imagen
 
 ```java
         dappPosCode.create(new DappCodePoSCallback() {
@@ -101,37 +114,24 @@ Los códigos QR POS, son códigos generados por negocios integrados al ambiente 
 ```
 
 
-4. Empieza a monitorear el estado de pago del código con la función _listen_
+5. Empieza a monitorear el estado de pago del código con la función _listen_
 
 ```java
         dappPosCode.listen();
 ```
 
-5. Utiliza la funcion _stopListening_ para detener el monitoreo del pago
+6. Utiliza la funcion _stopListening_ para detener el monitoreo del pago
 ```java
         dappPosCode.stopListening();
 ```
 
-6. Envía códigos POS por push notifications
+7. Envía códigos POS por push notifications
 
-El comercio puede hacer llegar el cobro al dispositivo de su cliente mediante una notificación push. Para realizar esto, primero debe obtener las apps disponibles para este flujo con la siguiente función.
+El comercio puede hacer llegar el cobro al dispositivo de su cliente mediante una notificación push.
+
+Una vez generado el código de cobro y seleccionada la aplicación del cliente llama a la función _sendPushNotification(phoneNumber)_ del objeto _DappPOSCode_.
 ```java
-        DappPosCode.getPushNotificationDestinations(new DappCodePushNotificationDestination() {
-                            @Override
-                            public void onSuccess(List<DappWallet> destinations) {
-                                mDestinations = destinations;
-                            }
-
-                            @Override
-                            public void onError(DappException exception) {
-
-                            }
-                        });
-```
-
-Una vez generado el código de cobro y seleccionada la aplicación del cliente llama a la función _sendPushNotification(phoneNumber, destination)_ del objeto _DappPOSCode_.
-```java
-        dappPosCode.sendPushNotification("5555555555", mDestinations.get(0), new DappCodePosPushNotificationCallback() {
+        dappPosCode.sendPushNotification("5555555555", new DappCodePosPushNotificationCallback() {
                             @Override
                             public void onSuccess() {
 
@@ -145,7 +145,7 @@ Una vez generado el código de cobro y seleccionada la aplicación del cliente l
 ```
 
 
-7. Enviar cobro CoDi por push notification
+8. Enviar cobro CoDi por push notification
 
 En caso de que el comercio solo tenga habilitado cobros CoDi, una vez que el código QR ha sido creado, puede enviarlo a la aplicación CoDi del usuario a través de una push notification con la siguiente función.
 ```java

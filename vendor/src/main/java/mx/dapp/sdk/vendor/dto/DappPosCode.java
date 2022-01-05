@@ -123,17 +123,25 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
         }
     }
 
-    public void sendPushNotification(String phoneNumber, DappWallet destination, final DappCodePosPushNotificationCallback callback) {
-        if (dappId != null && isValidPhoneNumber(phoneNumber) && destination != null) {
-            DappVendorApi api = new DappVendorApi();
-            api.dappCodePush(dappId, phoneNumber, destination.id, new DappResponseProcess(callback) {
-                @Override
-                public void processSuccess(Object data) {
-                    callback.onSuccess();
+    public void sendPushNotification(String phoneNumber, final DappCodePosPushNotificationCallback callback) {
+        if (wallet != null) {
+            if (wallet.isPushNotification()) {
+                if (wallet != null && wallet.isPushNotification() && dappId != null && isValidPhoneNumber(phoneNumber)) {
+                    DappVendorApi api = new DappVendorApi();
+                    api.dappCodePush(dappId, phoneNumber, wallet.id, new DappResponseProcess(callback) {
+                        @Override
+                        public void processSuccess(Object data) {
+                            callback.onSuccess();
+                        }
+                    });
+                } else {
+                    callback.onError(new DappException(DappResult.RESULT_INVALID_DATA));
                 }
-            });
+            } else {
+                callback.onError(new DappException(DappResult.RESULT_INVALID_WALLET_PUSH));
+            }
         } else {
-            callback.onError(new DappException(DappResult.RESULT_INVALID_DATA));
+            callback.onError(new DappException(DappResult.RESULT_INVALID_WALLET));
         }
     }
 

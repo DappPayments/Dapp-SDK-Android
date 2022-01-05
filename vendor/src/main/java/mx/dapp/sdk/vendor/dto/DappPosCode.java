@@ -145,21 +145,6 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
         }
     }
 
-    public static void getPushNotificationDestinations(final DappCodePushNotificationDestination callback) {
-        DappVendorApi api = new DappVendorApi();
-        api.dappCodePushDestinations(new DappResponseProcess(callback) {
-            @Override
-            public void processSuccess(Object data) {
-                JSONArray destinations = (JSONArray) data;
-                List<DappWallet> result = new ArrayList<>();
-                for (int i = 0; i < destinations.length(); i++) {
-                    result.add(new DappWallet(destinations.optJSONObject(i)));
-                }
-                callback.onSuccess(result);
-            }
-        });
-    }
-
     private boolean isValidPhoneNumber(@NonNull String phoneNumber) {
         Pattern regex = Pattern.compile("^[0-9]{10}$");
         Matcher mat = regex.matcher(phoneNumber);

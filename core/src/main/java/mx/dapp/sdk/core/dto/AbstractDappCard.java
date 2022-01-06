@@ -14,10 +14,10 @@ import mx.dapp.sdk.core.enums.DappCardResult;
 
 public abstract class AbstractDappCard {
 
-    private String id;
-    private String lastFour;
-    private String cardHolder;
-    private String brand;
+    protected String id;
+    protected String lastFour;
+    protected String cardHolder;
+    protected String brand;
 
     public AbstractDappCard(JSONObject data) {
         this.id = data.optString("id");
@@ -25,6 +25,8 @@ public abstract class AbstractDappCard {
         this.cardHolder = data.optString("cardholder");
         this.brand = data.optString("brand");
     }
+
+    protected AbstractDappCard(){}
 
     public static DappCardResult validateCardData(String cardNumber, String cardHolder, String expMonth, String expYear, String cvv, String email, String phone_number) {
         if (cardNumber == null || cardNumber.length() < 16) {

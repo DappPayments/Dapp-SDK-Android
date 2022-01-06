@@ -17,22 +17,24 @@ import mx.dapp.sdk.core.enums.DappPaymentType;
  * Created by carlos on 3/03/17.
  */
 
-public class DappPayment implements Parcelable {
+public abstract class AbstractDappPayment {
 
-    private static final String TAG = "DappPayment";
+    private static final String TAG = "AbstractDappPayment";
 
-    private String id;
-    private Double amount;
-    private Double tip;
-    private String currency;
-    private String reference;
-    private String description;
-    private Date date;
-    private String client;
-    private String cardLastFour;
-    private DappPaymentType paymentType;
+    protected String id;
+    protected Double amount;
+    protected Double tip;
+    protected String currency;
+    protected String reference;
+    protected String description;
+    protected Date date;
+    protected String client;
+    protected String cardLastFour;
+    protected DappPaymentType paymentType;
 
-    public DappPayment(JSONObject data) {
+    protected AbstractDappPayment(){}
+
+    protected AbstractDappPayment(JSONObject data) {
 
         id = data.optString("id");
         amount = data.optDouble("amount");
@@ -49,51 +51,6 @@ public class DappPayment implements Parcelable {
         paymentType = DappPaymentType.fromRawValue(data.optJSONObject("payment").optInt("type"));
         cardLastFour = paymentType != DappPaymentType.BALANCE ? data.optString("last_4") : "";
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeDouble(this.amount);
-        dest.writeDouble(this.tip);
-        dest.writeString(this.currency);
-        dest.writeString(this.reference);
-        dest.writeString(this.description);
-        dest.writeLong(this.date != null ? this.date.getTime() : -1);
-        dest.writeString(this.client);
-        dest.writeInt(this.paymentType == null ? -1 : this.paymentType.ordinal());
-        dest.writeString(this.cardLastFour);
-    }
-
-    protected DappPayment(Parcel in) {
-        this.id = in.readString();
-        this.amount = in.readDouble();
-        this.tip = in.readDouble();
-        this.currency = in.readString();
-        this.reference = in.readString();
-        this.description = in.readString();
-        long tmpDate = in.readLong();
-        this.date = tmpDate == -1 ? null : new Date(tmpDate);
-        this.client = in.readString();
-        int tmpPayment = in.readInt();
-        this.paymentType = tmpPayment == -1 ? null : DappPaymentType.values()[tmpPayment];
-    }
-
-    public static final Creator<DappPayment> CREATOR = new Creator<DappPayment>() {
-        @Override
-        public DappPayment createFromParcel(Parcel source) {
-            return new DappPayment(source);
-        }
-
-        @Override
-        public DappPayment[] newArray(int size) {
-            return new DappPayment[size];
-        }
-    };
 
 
     public String getId() {

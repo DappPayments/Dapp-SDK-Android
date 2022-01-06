@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import mx.dapp.sdk.R;
 import mx.dapp.sdk.core.callbacks.DappCallback;
@@ -15,7 +17,7 @@ import mx.dapp.sdk.core.exceptions.DappPaymentException;
 
 import static mx.dapp.sdk.core.Dapp.DAPP_CALLBACK_URL_REQUEST;
 
-public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallback {
+public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallback, Parcelable {
 
     public static final String DAPP_PAYMENT_ID = "DAPP_PAYMENT_ID";
 
@@ -78,4 +80,55 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
         }
         return null;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.qrText);
+        dest.writeString(this.urlImage);
+        dest.writeInt(this.expirationMinutes);
+        dest.writeString(this.dappId);
+        dest.writeValue(this.amount);
+        dest.writeString(this.currency);
+        dest.writeString(this.description);
+        dest.writeString(this.reference);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.qrText = source.readString();
+        this.urlImage = source.readString();
+        this.expirationMinutes = source.readInt();
+        this.dappId = source.readString();
+        this.amount = (Double) source.readValue(Double.class.getClassLoader());
+        this.currency = source.readString();
+        this.description = source.readString();
+        this.reference = source.readString();
+    }
+
+    protected DappPosCode(Parcel in) {
+        this.qrText = in.readString();
+        this.urlImage = in.readString();
+        this.expirationMinutes = in.readInt();
+        this.dappId = in.readString();
+        this.amount = (Double) in.readValue(Double.class.getClassLoader());
+        this.currency = in.readString();
+        this.description = in.readString();
+        this.reference = in.readString();
+    }
+
+    public static final Parcelable.Creator<DappPosCode> CREATOR = new Parcelable.Creator<DappPosCode>() {
+        @Override
+        public DappPosCode createFromParcel(Parcel source) {
+            return new DappPosCode(source);
+        }
+
+        @Override
+        public DappPosCode[] newArray(int size) {
+            return new DappPosCode[size];
+        }
+    };
 }

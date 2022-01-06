@@ -2,6 +2,8 @@ package mx.dapp.sdk.core.network;
 
 import android.util.Base64;
 
+import androidx.annotation.Nullable;
+
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
@@ -48,13 +50,18 @@ public class DappApi extends AbstractDappApi {
         }
     }
 
-    public void dappCode(String amount, String description, String reference, int expirationMinutes, DappResponseProcess responseHandler) {
+    public void dappCode(String amount, String description, @Nullable String reference, int qrSource, int expirationMinutes, DappResponseProcess responseHandler) {
         HashMap<String, String> postValues = new HashMap<>();
         postValues.put("amount", amount);
         postValues.put("description", description);
-        postValues.put("reference", reference);
+        if (reference != null) {
+            postValues.put("reference", reference);
+        }
         if (expirationMinutes > 0) {
             postValues.put("expiration_minutes", Integer.toString(expirationMinutes));
+        }
+        if (qrSource != -1) {
+            postValues.put("qr_source", Integer.toString(qrSource));
         }
         execute(postValues, "dapp-codes/", responseHandler);
     }

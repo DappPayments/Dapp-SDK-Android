@@ -3,6 +3,7 @@ package mx.dapp.sdk.vendor.dto;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -10,7 +11,6 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -19,7 +19,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import mx.dapp.sdk.core.callbacks.DappCallback;
-import mx.dapp.sdk.core.callbacks.DappPaymentCallback;
 import mx.dapp.sdk.core.callbacks.DappPosCodeCallback;
 import mx.dapp.sdk.core.dto.AbstractDappPosCode;
 import mx.dapp.sdk.core.enums.DappResult;
@@ -28,6 +27,8 @@ import mx.dapp.sdk.core.network.http.DappResponseProcess;
 import mx.dapp.sdk.vendor.callbacks.DappCodePoSImageCallback;
 import mx.dapp.sdk.vendor.callbacks.DappCodePosPushNotificationCallback;
 import mx.dapp.sdk.vendor.callbacks.DappCodePushNotificationDestination;
+import mx.dapp.sdk.vendor.callbacks.DappCodesWalletsCallback;
+import mx.dapp.sdk.vendor.callbacks.DappPaymentCallback;
 import mx.dapp.sdk.vendor.handler.PoSCodeHandler;
 import mx.dapp.sdk.vendor.network.DappVendorApi;
 
@@ -37,20 +38,27 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
     private int width;
     private DappCodePoSImageCallback dappCodePoSImageCallback;
     private PoSCodeHandler poSCodeHandler;
+    private DappWallet wallet;
 
-    public DappPosCode(Double amount, String description, String reference) {
+    public DappPosCode(Double amount, String description, @Nullable String reference, @Nullable DappWallet wallet) {
         super(amount, description, reference);
+        this.wallet = wallet;
     }
 
-    public DappPosCode(Double amount, String description, String reference, int expirationMinutes) {
+    public DappPosCode(Double amount, String description, @Nullable String reference, @Nullable DappWallet wallet, int expirationMinutes) {
         super(amount, description, reference, expirationMinutes);
+        this.wallet = wallet;
+    }
+
+    public void create(){
+        create(getQrSource(), this);
     }
 
     public void createWithImage(int height, int width, final DappCodePoSImageCallback callback) {
         this.heigth = height;
         this.width = width;
         this.dappCodePoSImageCallback = callback;
-        create(this);
+        create(getQrSource(), this);
     }
 
     @Override
@@ -115,23 +123,37 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
         }
     }
 
-    public void sendPushNotification(String phoneNumber, DappWallet destination, final DappCodePosPushNotificationCallback callback) {
-        if (dappId != null && isValidPhoneNumber(phoneNumber) && destination != null) {
-            DappVendorApi api = new DappVendorApi();
-            api.dappCodePush(dappId, phoneNumber, destination.id, new DappResponseProcess(callback) {
-                @Override
-                public void processSuccess(Object data) {
-                    callback.onSuccess();
+    public void sendPushNotification(String phoneNumber, final DappCodePosPushNotificationCallback callback) {
+        if (wallet != null) {
+            if (wallet.isPushNotification()) {
+                if (wallet != null && wallet.isPushNotification() && dappId != null && isValidPhoneNumber(phoneNumber)) {
+                    DappVendorApi api = new DappVendorApi();
+                    api.dappCodePush(dappId, phoneNumber, wallet.id, new DappResponseProcess(callback) {
+                        @Override
+                        public void processSuccess(Object data) {
+                            callback.onSuccess();
+                        }
+                    });
+                } else {
+                    callback.onError(new DappException(DappResult.RESULT_INVALID_DATA));
                 }
-            });
+            } else {
+                callback.onError(new DappException(DappResult.RESULT_INVALID_WALLET_PUSH));
+            }
         } else {
-            callback.onError(new DappException(DappResult.RESULT_INVALID_DATA));
+            callback.onError(new DappException(DappResult.RESULT_INVALID_WALLET));
         }
     }
 
-    public static void getPushNotificationDestinations(final DappCodePushNotificationDestination callback) {
+    private boolean isValidPhoneNumber(@NonNull String phoneNumber) {
+        Pattern regex = Pattern.compile("^[0-9]{10}$");
+        Matcher mat = regex.matcher(phoneNumber);
+        return mat.matches();
+    }
+
+    public static void getWallets(final DappCodesWalletsCallback callback) {
         DappVendorApi api = new DappVendorApi();
-        api.dappCodePushDestinations(new DappResponseProcess(callback) {
+        api.dappCodesWallets(new DappResponseProcess(callback) {
             @Override
             public void processSuccess(Object data) {
                 JSONArray destinations = (JSONArray) data;
@@ -144,10 +166,7 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
         });
     }
 
-    private boolean isValidPhoneNumber(@NonNull String phoneNumber) {
-        Pattern regex = Pattern.compile("^[0-9]{10}$");
-        Matcher mat = regex.matcher(phoneNumber);
-        return mat.matches();
+    private int getQrSource(){
+        return wallet != null ? wallet.getQrSource() : -1;
     }
-
 }

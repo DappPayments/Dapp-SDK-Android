@@ -11,12 +11,12 @@ import java.util.Date;
 import java.util.Locale;
 
 import mx.dapp.sdk.core.callbacks.DappSocketStatusCallback;
-import mx.dapp.sdk.core.dto.DappPayment;
 import mx.dapp.sdk.core.enums.DappResult;
 import mx.dapp.sdk.core.exceptions.DappException;
 import mx.dapp.sdk.core.handler.AbstractStatusHandler;
 import mx.dapp.sdk.core.network.http.DappResponseProcess;
 import mx.dapp.sdk.wallet.callbacks.DappRPCodeStatusCallback;
+import mx.dapp.sdk.wallet.dto.DappPayment;
 import mx.dapp.sdk.wallet.dto.DappRPCode;
 import mx.dapp.sdk.wallet.network.DappWalletApi;
 

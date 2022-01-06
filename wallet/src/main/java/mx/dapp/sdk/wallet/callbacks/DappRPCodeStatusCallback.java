@@ -3,7 +3,7 @@ package mx.dapp.sdk.wallet.callbacks;
 import java.util.Date;
 
 import mx.dapp.sdk.core.callbacks.DappCallback;
-import mx.dapp.sdk.core.dto.DappPayment;
+import mx.dapp.sdk.wallet.dto.DappPayment;
 
 public interface DappRPCodeStatusCallback extends DappCallback {
 

@@ -36,9 +36,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly 'androidx.appcompat:appcompat:1.2.0'
+    compileOnly 'androidx.appcompat:appcompat:1.4.0'
     compileOnly 'com.google.zxing:core:3.4.0'
-    compileOnly 'com.squareup.okhttp3:okhttp:3.12.1'
+    compileOnly 'com.squareup.okhttp3:okhttp:4.2.1'
     compileOnly project(path: ':core')
 }
 

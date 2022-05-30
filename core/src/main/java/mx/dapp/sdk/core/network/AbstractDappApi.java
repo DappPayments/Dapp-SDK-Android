@@ -19,7 +19,7 @@ public abstract class AbstractDappApi {
         initializeSSLContext(Dapp.getContext());
     }
 
-    protected static final String URL_VERSION = "v1/";
+    protected static final String URL_VERSION = "v1";
 
     private static void initializeSSLContext(Context mContext) {
         try {
@@ -75,6 +75,6 @@ public abstract class AbstractDappApi {
         postValues.put("email", DappEncryption.rsaEncrypt(email));
         postValues.put("phone_number", DappEncryption.rsaEncrypt(telefono));
 
-        execute(postValues, "cards/", responseHandler);
+        execute(postValues, "/cards", responseHandler);
     }
 }

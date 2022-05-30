@@ -55,7 +55,7 @@ public class DappWalletApi extends AbstractDappApi {
     }
 
     public WebSocket getPaymentCodeSocket(String code, DappSocketStatusCallback callback) {
-        DappWsClient dappWsClient = new DappWsClient(getSocketUrl() + "payments/code/" + code + "/", getHeader(), callback);
+        DappWsClient dappWsClient = new DappWsClient(getSocketUrl() + "payments/code/" + code, getHeader(), callback);
         return dappWsClient.createSocket();
     }
 

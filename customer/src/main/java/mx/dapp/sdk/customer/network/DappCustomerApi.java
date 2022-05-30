@@ -8,6 +8,6 @@ import mx.dapp.sdk.core.network.http.DappResponseProcess;
 public class DappCustomerApi extends DappApi {
 
     public void paymentInfo(String id, DappResponseProcess responseHandler) {
-        execute("/payments/" + id + "/", responseHandler);
+        execute("/payments/" + id, responseHandler);
     }
 }

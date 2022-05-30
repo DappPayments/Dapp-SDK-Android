@@ -63,6 +63,6 @@ public class DappApi extends AbstractDappApi {
         if (qrSource != -1) {
             postValues.put("qr_source", Integer.toString(qrSource));
         }
-        execute(postValues, "dapp-codes/", responseHandler);
+        execute(postValues, "/dapp-codes", responseHandler);
     }
 }

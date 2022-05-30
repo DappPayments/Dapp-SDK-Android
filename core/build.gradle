@@ -5,7 +5,7 @@ ext {
 
     publishedGroupId = "mx.dapp.sdk"
     artifact = "core"
-    libraryVersion = "2.6.3"
+    libraryVersion = "2.6.4"
 
     libraryDescription = "DappMX Core for the Vendor, Customer and Wallet SDKs"
     siteUrl = "https://dapp.mx"
@@ -19,12 +19,12 @@ ext {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 32
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 32
         versionCode 6
-        versionName "2.6.3"
+        versionName "2.6.4"
     }
     buildTypes {
         release {
@@ -38,17 +38,17 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly 'com.google.android.gms:play-services-base:+'
     compileOnly 'com.squareup.okhttp3:okhttp:4.2.1'
-    compileOnly 'androidx.appcompat:appcompat:1.4.0'
-    compileOnly 'androidx.constraintlayout:constraintlayout:2.1.2'
+    compileOnly 'androidx.appcompat:appcompat:1.4.1'
+    compileOnly 'androidx.constraintlayout:constraintlayout:2.1.4'
     //ML Kit Barcode Scanning
-    compileOnly 'com.google.mlkit:barcode-scanning:16.1.1'
+    compileOnly 'com.google.mlkit:barcode-scanning:17.0.2'
 
     //CameraX Dependencies
-    compileOnly "androidx.camera:camera-core:1.1.0-alpha12"
-    compileOnly "androidx.camera:camera-camera2:1.1.0-alpha12"
-    compileOnly "androidx.camera:camera-lifecycle:1.1.0-alpha12"
-    compileOnly "androidx.camera:camera-view:1.0.0-alpha32"
-    compileOnly "androidx.camera:camera-extensions:1.0.0-alpha32"
+    compileOnly "androidx.camera:camera-core:1.2.0-alpha01"
+    compileOnly "androidx.camera:camera-camera2:1.2.0-alpha01"
+    compileOnly "androidx.camera:camera-lifecycle:1.2.0-alpha01"
+    compileOnly "androidx.camera:camera-view:1.2.0-alpha01"
+    compileOnly "androidx.camera:camera-extensions:1.2.0-alpha01"
 }
 
 apply from: "${rootProject.projectDir}/scripts/publish.gradle"

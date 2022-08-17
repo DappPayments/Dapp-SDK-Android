@@ -11,17 +11,13 @@ import mx.dapp.sdk.core.network.http.DappResponseProcess;
 public abstract class AbstractDappPosCode extends AbstractDappCode {
 
     protected String qrText;
+    protected Double tip;
     protected String urlImage;
     protected int expirationMinutes = -1;
 
-    public AbstractDappPosCode(Double amount, String description, @Nullable String reference) {
+    public AbstractDappPosCode(Double amount, Double tip, String description, @Nullable String reference, int expiratioMinutes) {
         this.amount = amount;
-        this.description = description;
-        this.reference = reference;
-    }
-
-    public AbstractDappPosCode(Double amount, String description, @Nullable String reference, int expiratioMinutes) {
-        this.amount = amount;
+        this.tip = tip;
         this.description = description;
         this.reference = reference;
         this.expirationMinutes = expiratioMinutes;
@@ -34,11 +30,15 @@ public abstract class AbstractDappPosCode extends AbstractDappCode {
     }
 
     public void create(int qrSource, final DappPosCodeCallback callback) {
+        create(qrSource, null, null, callback);
+    }
+
+    public void create(int qrSource, String pos, String pin, final DappPosCodeCallback callback) {
         if (dappId != null) {
             callback.onSuccess();
         } else {
             DappApi dappApi = new DappApi();
-            dappApi.dappCode(amount.toString(), description, reference, qrSource, expirationMinutes, new DappResponseProcess(callback) {
+            dappApi.dappCode(amount.toString(), tip.toString(), pos, pin, description, reference, qrSource, expirationMinutes, new DappResponseProcess(callback) {
                 @Override
                 public void processSuccess(Object data) {
                     JSONObject result = ((JSONObject) data);
@@ -57,6 +57,10 @@ public abstract class AbstractDappPosCode extends AbstractDappCode {
 
     public String getQrText() {
         return qrText;
+    }
+
+    public Double getTip() {
+        return tip;
     }
 
     public String getUrlImage() {

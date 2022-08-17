@@ -41,24 +41,39 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
     private DappWallet wallet;
 
     public DappPosCode(Double amount, String description, @Nullable String reference, @Nullable DappWallet wallet) {
-        super(amount, description, reference);
-        this.wallet = wallet;
+        this(amount, 0.0, description, reference, wallet, -1);
+    }
+
+    public DappPosCode(Double amount, Double tip, String description, @Nullable String reference, @Nullable DappWallet wallet) {
+        this(amount, tip, description, reference, wallet, -1);
     }
 
     public DappPosCode(Double amount, String description, @Nullable String reference, @Nullable DappWallet wallet, int expirationMinutes) {
-        super(amount, description, reference, expirationMinutes);
+        this(amount, 0.0, description, reference, wallet, expirationMinutes);
+    }
+
+    public DappPosCode(Double amount, Double tip, String description, @Nullable String reference, @Nullable DappWallet wallet, int expirationMinutes) {
+        super(amount, tip, description, reference, expirationMinutes);
         this.wallet = wallet;
     }
 
     public void create(){
-        create(getQrSource(), this);
+        create(getQrSource(), null, null, this);
+    }
+
+    public void create(String pos, String pin){
+        create(getQrSource(), pos, pin, this);
     }
 
     public void createWithImage(int height, int width, final DappCodePoSImageCallback callback) {
+        createWithImage(height, width, null, null, callback);
+    }
+
+    public void createWithImage(int height, int width, String pos, String pin, final DappCodePoSImageCallback callback) {
         this.heigth = height;
         this.width = width;
         this.dappCodePoSImageCallback = callback;
-        create(getQrSource(), this);
+        create(getQrSource(), pos, pin, this);
     }
 
     @Override

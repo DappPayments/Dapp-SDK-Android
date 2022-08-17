@@ -50,10 +50,25 @@ public class DappApi extends AbstractDappApi {
         }
     }
 
-    public void dappCode(String amount, String description, @Nullable String reference, int qrSource, int expirationMinutes, DappResponseProcess responseHandler) {
+    public void dappCode(String amount, String tip, String description, @Nullable String reference,
+                         int qrSource, int expirationMinutes, DappResponseProcess responseHandler) {
+        dappCode(amount, tip, null, null, description, reference, qrSource, expirationMinutes, responseHandler);
+    }
+
+    public void dappCode(String amount, String tip, @Nullable String pos, @Nullable String pin,
+                         String description, @Nullable String reference, int qrSource,
+                         int expirationMinutes, DappResponseProcess responseHandler) {
         HashMap<String, String> postValues = new HashMap<>();
         postValues.put("amount", amount);
+        postValues.put("tip", tip);
         postValues.put("description", description);
+
+        if (pos != null) {
+            postValues.put("pos", pos);
+        }
+        if (pin != null) {
+            postValues.put("pin", pin);
+        }
         if (reference != null) {
             postValues.put("reference", reference);
         }

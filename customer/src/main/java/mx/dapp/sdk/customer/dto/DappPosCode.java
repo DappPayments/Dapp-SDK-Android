@@ -29,7 +29,11 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
     }
 
     public DappPosCode(Double amount, String description, String reference) {
-        super(amount, description, reference);
+        this(amount, 0.0, description, reference);
+    }
+
+    public DappPosCode(Double amount, Double tip, String description, String reference) {
+        super(amount, tip, description, reference, -1);
     }
 
     public void pay(Context context, DappCallback userCallback) {

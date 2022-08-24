@@ -5,7 +5,7 @@ ext {
 
     publishedGroupId = "mx.dapp.sdk"
     artifact = "wallet"
-    libraryVersion = "2.3.5"
+    libraryVersion = "3.0.0"
 
     libraryDescription = "DappMX Wallet SDK"
     siteUrl = "https://dapp.mx"
@@ -23,8 +23,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 3
-        versionName "2.3.5"
+        versionCode 4
+        versionName "3.0.0"
     }
     buildTypes {
         release {

@@ -5,18 +5,16 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-public class DappUser implements Parcelable {
+public class DappMerchant implements Parcelable {
 
      private String name;
      private String image;
      private String address;
-     private boolean suggestTip;
 
-     public DappUser(JSONObject data){
+     public DappMerchant(JSONObject data){
          this.name = data.optString("name");
          this.image = data.optString("image");
          this.address = data.optString("address");
-         this.suggestTip = data.optBoolean("suggest_tip");
      }
 
     public String getName() {
@@ -27,21 +25,16 @@ public class DappUser implements Parcelable {
         return image;
     }
 
-    public boolean isSuggestTip() {
-        return suggestTip;
-    }
-
     public String getAddress() {
         return address;
     }
 
     @Override
     public String toString() {
-        return "DappUser{" +
+        return "DappMerchant{" +
                 "name='" + name + '\'' +
                 ", image='" + image + '\'' +
-                ", address='" + address + '\'' +
-                ", suggestTip=" + suggestTip +
+                ", address='" + address +
                 '}';
     }
 
@@ -55,25 +48,23 @@ public class DappUser implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.image);
         dest.writeString(this.address);
-        dest.writeByte(this.suggestTip ? (byte) 1 : (byte) 0);
     }
 
-    protected DappUser(Parcel in) {
+    protected DappMerchant(Parcel in) {
         this.name = in.readString();
         this.image = in.readString();
         this.address = in.readString();
-        this.suggestTip = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<DappUser> CREATOR = new Parcelable.Creator<DappUser>() {
+    public static final Parcelable.Creator<DappMerchant> CREATOR = new Parcelable.Creator<DappMerchant>() {
         @Override
-        public DappUser createFromParcel(Parcel source) {
-            return new DappUser(source);
+        public DappMerchant createFromParcel(Parcel source) {
+            return new DappMerchant(source);
         }
 
         @Override
-        public DappUser[] newArray(int size) {
-            return new DappUser[size];
+        public DappMerchant[] newArray(int size) {
+            return new DappMerchant[size];
         }
     };
 }

@@ -45,7 +45,6 @@ public class DappPayment extends AbstractDappPayment implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
         dest.writeValue(this.amount);
-        dest.writeValue(this.tip);
         dest.writeString(this.currency);
         dest.writeString(this.reference);
         dest.writeString(this.description);
@@ -58,7 +57,6 @@ public class DappPayment extends AbstractDappPayment implements Parcelable {
     public void readFromParcel(Parcel source) {
         this.id = source.readString();
         this.amount = (Double) source.readValue(Double.class.getClassLoader());
-        this.tip = (Double) source.readValue(Double.class.getClassLoader());
         this.currency = source.readString();
         this.reference = source.readString();
         this.description = source.readString();
@@ -73,7 +71,6 @@ public class DappPayment extends AbstractDappPayment implements Parcelable {
     protected DappPayment(Parcel in) {
         this.id = in.readString();
         this.amount = (Double) in.readValue(Double.class.getClassLoader());
-        this.tip = (Double) in.readValue(Double.class.getClassLoader());
         this.currency = in.readString();
         this.reference = in.readString();
         this.description = in.readString();

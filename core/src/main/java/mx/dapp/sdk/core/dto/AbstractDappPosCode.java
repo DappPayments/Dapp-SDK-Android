@@ -15,12 +15,12 @@ public abstract class AbstractDappPosCode extends AbstractDappCode {
     protected String urlImage;
     protected int expirationMinutes = -1;
 
-    public AbstractDappPosCode(Double amount, Double tip, String description, @Nullable String reference, int expiratioMinutes) {
+    public AbstractDappPosCode(Double amount, Double tip, String description, @Nullable String reference, int expirationMinutes) {
         this.amount = amount;
         this.tip = tip;
         this.description = description;
         this.reference = reference;
-        this.expirationMinutes = expiratioMinutes;
+        this.expirationMinutes = expirationMinutes;
     }
 
     protected AbstractDappPosCode(){}

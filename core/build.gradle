@@ -5,7 +5,7 @@ ext {
 
     publishedGroupId = "mx.dapp.sdk"
     artifact = "core"
-    libraryVersion = "2.7.0"
+    libraryVersion = "3.0.0"
 
     libraryDescription = "DappMX Core for the Vendor, Customer and Wallet SDKs"
     siteUrl = "https://dapp.mx"
@@ -23,8 +23,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 6
-        versionName "2.7.0"
+        versionCode 7
+        versionName "3.0.0"
     }
     buildTypes {
         release {
@@ -44,11 +44,11 @@ dependencies {
     compileOnly 'com.google.mlkit:barcode-scanning:17.0.2'
 
     //CameraX Dependencies
-    compileOnly "androidx.camera:camera-core:1.2.0-alpha04"
-    compileOnly "androidx.camera:camera-camera2:1.2.0-alpha04"
-    compileOnly "androidx.camera:camera-lifecycle:1.2.0-alpha04"
-    compileOnly "androidx.camera:camera-view:1.2.0-alpha04"
-    compileOnly "androidx.camera:camera-extensions:1.2.0-alpha04"
+    compileOnly "androidx.camera:camera-core:1.2.0-beta01"
+    compileOnly "androidx.camera:camera-camera2:1.2.0-beta01"
+    compileOnly "androidx.camera:camera-lifecycle:1.2.0-beta01"
+    compileOnly "androidx.camera:camera-view:1.2.0-beta01"
+    compileOnly "androidx.camera:camera-extensions:1.2.0-beta01"
 }
 
 apply from: "${rootProject.projectDir}/scripts/publish.gradle"

@@ -1,7 +1,5 @@
 package mx.dapp.sdk.core.dto;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -23,7 +21,6 @@ public abstract class AbstractDappPayment {
 
     protected String id;
     protected Double amount;
-    protected Double tip;
     protected String currency;
     protected String reference;
     protected String description;
@@ -38,7 +35,6 @@ public abstract class AbstractDappPayment {
 
         id = data.optString("id");
         amount = data.optDouble("amount");
-        tip = data.optDouble("tip");
         currency = data.optString("currency");
         reference = data.optString("reference");
         description = data.optString("description");
@@ -47,9 +43,11 @@ public abstract class AbstractDappPayment {
         } catch (ParseException e) {
             Log.e(TAG, "Date parse error", e);
         }
-        client = data.optJSONObject("client").optString("name");
-        paymentType = DappPaymentType.fromRawValue(data.optJSONObject("payment").optInt("type"));
-        cardLastFour = paymentType != DappPaymentType.BALANCE ? data.optString("last_4") : "";
+
+        JSONObject payment = data.optJSONArray("payments").optJSONObject(0);
+        client = payment.optJSONObject("client").optString("name");
+        paymentType = DappPaymentType.fromRawValue(payment.optInt("type"));
+        cardLastFour = "";
     }
 
 
@@ -59,10 +57,6 @@ public abstract class AbstractDappPayment {
 
     public Double getAmount() {
         return amount;
-    }
-
-    public Double getTip() {
-        return tip;
     }
 
     public String getCurrency() {

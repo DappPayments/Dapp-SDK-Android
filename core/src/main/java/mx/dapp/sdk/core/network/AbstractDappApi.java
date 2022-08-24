@@ -19,7 +19,7 @@ public abstract class AbstractDappApi {
         initializeSSLContext(Dapp.getContext());
     }
 
-    protected static final String URL_VERSION = "v1";
+    protected static final String URL_VERSION = "v2";
 
     private static void initializeSSLContext(Context mContext) {
         try {

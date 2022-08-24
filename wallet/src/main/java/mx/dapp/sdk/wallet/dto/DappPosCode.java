@@ -29,7 +29,7 @@ public class DappPosCode extends AbstractDappCode implements Parcelable {
 
     private String code;
     private String urlCallback;
-    private DappUser dappUser;
+    private DappMerchant dappMerchant;
     private JSONObject jsonObject;
 
     public DappPosCode(String code) {
@@ -72,7 +72,7 @@ public class DappPosCode extends AbstractDappCode implements Parcelable {
                 currency = jsonObject.optString("currency");
                 description = jsonObject.optString("description");
                 reference = jsonObject.optString("referencia");
-                dappUser = new DappUser(jsonObject.optJSONObject("dapp_user"));
+                dappMerchant = new DappMerchant(jsonObject.optJSONObject("merchant"));
                 callback.onSuccess();
             }
         });
@@ -182,8 +182,8 @@ public class DappPosCode extends AbstractDappCode implements Parcelable {
         return code;
     }
 
-    public DappUser getDappUser() {
-        return dappUser;
+    public DappMerchant getDappMerchant() {
+        return dappMerchant;
     }
 
     @Override
@@ -195,7 +195,7 @@ public class DappPosCode extends AbstractDappCode implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.code);
         dest.writeString(this.urlCallback);
-        dest.writeParcelable(this.dappUser, flags);
+        dest.writeParcelable(this.dappMerchant, flags);
         dest.writeString(this.jsonObject.toString());
         dest.writeString(this.dappId);
         dest.writeValue(this.amount);
@@ -206,7 +206,7 @@ public class DappPosCode extends AbstractDappCode implements Parcelable {
     protected DappPosCode(Parcel in) throws JSONException {
         this.code = in.readString();
         this.urlCallback = in.readString();
-        this.dappUser = in.readParcelable(DappUser.class.getClassLoader());
+        this.dappMerchant = in.readParcelable(DappMerchant.class.getClassLoader());
         this.jsonObject = new JSONObject(in.readString());
         this.dappId = in.readString();
         this.amount = (Double) in.readValue(Double.class.getClassLoader());

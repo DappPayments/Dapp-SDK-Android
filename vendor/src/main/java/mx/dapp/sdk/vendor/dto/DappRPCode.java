@@ -16,9 +16,15 @@ public class DappRPCode extends AbstractDappRPCode implements Parcelable {
         this.qrString = qrString;
     }
 
-    public void charge(Double amount, String description, String reference, final DappPaymentCallback callback){
+    public void charge(Double amount, String description, String reference, final DappPaymentCallback callback) {
+        charge(amount, 0.0, description, reference, null, null, callback);
+    }
+
+    public void charge(Double amount, Double tip, String description, String reference, String pos, String pin,
+                       final DappPaymentCallback callback){
         DappVendorApi api = new DappVendorApi();
-        api.paymentCode(qrString, amount.toString(), description, reference, new DappResponseProcess(callback) {
+        api.paymentCode(qrString, amount.toString(), tip.toString(), description, reference, pos, pin,
+                new DappResponseProcess(callback) {
             @Override
             public void processSuccess(Object data) {
                 DappPayment payment = new DappPayment((JSONObject) data);

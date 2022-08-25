@@ -11,11 +11,23 @@ import okhttp3.WebSocket;
 
 public class DappVendorApi extends DappApi {
 
-    public void paymentCode(String qrCode, String amount, String description, String reference, DappResponseProcess responseHandler) {
+    public void paymentCode(String qrCode, String amount, String tip,
+                            String description, String reference,
+                            String pos, String pin,
+                            DappResponseProcess responseHandler) {
         HashMap<String, String> postValues = new HashMap<>();
         postValues.put("amount", amount);
+        if (tip != null) {
+            postValues.put("tip", tip);
+        }
         postValues.put("description", description);
         postValues.put("reference", reference);
+        if (pos != null) {
+            postValues.put("pos", pos);
+        }
+        if (pin != null) {
+            postValues.put("pin", pin);
+        }
 
         execute(postValues, "/payments/code/" + qrCode, responseHandler);
     }

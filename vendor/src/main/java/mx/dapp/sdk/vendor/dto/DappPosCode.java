@@ -36,9 +36,10 @@ import mx.dapp.sdk.vendor.network.DappVendorApi;
 
 public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallback, Parcelable {
 
-    private int heigth;
+    private int height;
     private int width;
     private DappCodePoSImageCallback dappCodePoSImageCallback;
+    private DappPosCodeCallback dappCodePoSCallback;
     private PoSCodeHandler poSCodeHandler;
     private DappWallet wallet;
 
@@ -59,11 +60,12 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
         this.wallet = wallet;
     }
 
-    public void create(){
-        create(getQrSource(), null, null, this);
+    public void create(DappPosCodeCallback callback){
+        create(null, null, callback);
     }
 
-    public void create(String pos, String pin){
+    public void create(String pos, String pin, DappPosCodeCallback callback){
+        dappCodePoSCallback = callback;
         create(getQrSource(), pos, pin, this);
     }
 
@@ -72,7 +74,7 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
     }
 
     public void createWithImage(int height, int width, String pos, String pin, final DappCodePoSImageCallback callback) {
-        this.heigth = height;
+        this.height = height;
         this.width = width;
         this.dappCodePoSImageCallback = callback;
         create(getQrSource(), pos, pin, this);
@@ -80,41 +82,58 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
 
     @Override
     public void onSuccess() {
-        try {
-            Bitmap bitmap = generateQRBitmap();
-            dappCodePoSImageCallback.onSuccess(bitmap);
-        } catch (WriterException e) {
-            e.printStackTrace();
-            DappException exception = new DappException(e.getMessage(), e.hashCode());
-            ((DappCallback) dappCodePoSImageCallback).onError(exception);
+        if (dappCodePoSCallback != null) {
+            dappCodePoSCallback.onSuccess();
+        }
+
+        if (dappCodePoSImageCallback != null) {
+            try {
+                Bitmap bitmap = generateQRBitmap();
+                dappCodePoSImageCallback.onSuccess(bitmap);
+            } catch (WriterException e) {
+                e.printStackTrace();
+                DappException exception = new DappException(e.getMessage(), e.hashCode());
+                dappCodePoSImageCallback.onError(exception);
+            }
         }
     }
 
     @Override
     public void onError(DappException exception) {
-        ((DappCallback) dappCodePoSImageCallback).onError(exception);
+        if (dappCodePoSCallback != null) {
+            dappCodePoSCallback.onError(exception);
+        }
+
+        if (dappCodePoSImageCallback != null) {
+            dappCodePoSImageCallback.onError(exception);
+        }
     }
 
-    private Bitmap generateQRBitmap() throws WriterException {
+    public Bitmap generateQRBitmap(int desiredWidth, int desiredHeight) throws WriterException {
         EnumMap<EncodeHintType, Object> hint = new EnumMap<>(EncodeHintType.class);
         hint.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         hint.put(EncodeHintType.MARGIN, 0);
-        BitMatrix bitMatrix = new QRCodeWriter().encode(qrText, com.google.zxing.BarcodeFormat.QR_CODE, width, heigth, hint);
+        BitMatrix bitMatrix = new QRCodeWriter().encode(qrText, com.google.zxing.BarcodeFormat.QR_CODE,
+                desiredWidth, desiredHeight, hint);
 
-        int width = bitMatrix.getWidth();
-        int height = bitMatrix.getHeight();
-        int[] pixels = new int[width * height];
-        for (int y = 0; y < height; y++) {
-            int offset = y * width;
-            for (int x = 0; x < width; x++) {
+        int bmWidth = bitMatrix.getWidth();
+        int bmHeight = bitMatrix.getHeight();
+        int[] pixels = new int[bmWidth * bmHeight];
+        for (int y = 0; y < bmHeight; y++) {
+            int offset = y * bmWidth;
+            for (int x = 0; x < bmWidth; x++) {
                 pixels[offset + x] = bitMatrix.get(x, y) ? 0xFF000000
                         : 0xFFFFFFFF;
             }
         }
 
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        Bitmap bitmap = Bitmap.createBitmap(bmWidth, bmHeight, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, bmWidth, 0, 0, bmWidth, bmHeight);
         return bitmap;
+    }
+
+    private Bitmap generateQRBitmap() throws WriterException {
+        return generateQRBitmap(width, height);
     }
 
     public void listen(DappPaymentCallback callback) {
@@ -187,6 +206,9 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
         return wallet != null ? wallet.getQrSource() : -1;
     }
 
+    public DappWallet getWallet() {
+        return wallet;
+    }
 
     @Override
     public int describeContents() {
@@ -195,7 +217,7 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.heigth);
+        dest.writeInt(this.height);
         dest.writeInt(this.width);
         dest.writeParcelable(this.wallet, flags);
         dest.writeString(this.qrText);
@@ -210,7 +232,7 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
     }
 
     public void readFromParcel(Parcel source) {
-        this.heigth = source.readInt();
+        this.height = source.readInt();
         this.width = source.readInt();
         this.wallet = source.readParcelable(DappWallet.class.getClassLoader());
         this.qrText = source.readString();
@@ -225,7 +247,7 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
     }
 
     protected DappPosCode(Parcel in) {
-        this.heigth = in.readInt();
+        this.height = in.readInt();
         this.width = in.readInt();
         this.wallet = in.readParcelable(DappWallet.class.getClassLoader());
         this.qrText = in.readString();

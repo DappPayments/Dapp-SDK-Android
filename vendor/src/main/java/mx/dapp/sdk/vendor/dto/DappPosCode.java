@@ -1,6 +1,8 @@
 package mx.dapp.sdk.vendor.dto;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +34,7 @@ import mx.dapp.sdk.vendor.callbacks.DappPaymentCallback;
 import mx.dapp.sdk.vendor.handler.PoSCodeHandler;
 import mx.dapp.sdk.vendor.network.DappVendorApi;
 
-public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallback {
+public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallback, Parcelable {
 
     private int heigth;
     private int width;
@@ -184,4 +186,68 @@ public class DappPosCode extends AbstractDappPosCode implements DappPosCodeCallb
     private int getQrSource(){
         return wallet != null ? wallet.getQrSource() : -1;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.heigth);
+        dest.writeInt(this.width);
+        dest.writeParcelable(this.wallet, flags);
+        dest.writeString(this.qrText);
+        dest.writeValue(this.tip);
+        dest.writeString(this.urlImage);
+        dest.writeInt(this.expirationMinutes);
+        dest.writeString(this.dappId);
+        dest.writeValue(this.amount);
+        dest.writeString(this.currency);
+        dest.writeString(this.description);
+        dest.writeString(this.reference);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.heigth = source.readInt();
+        this.width = source.readInt();
+        this.wallet = source.readParcelable(DappWallet.class.getClassLoader());
+        this.qrText = source.readString();
+        this.tip = (Double) source.readValue(Double.class.getClassLoader());
+        this.urlImage = source.readString();
+        this.expirationMinutes = source.readInt();
+        this.dappId = source.readString();
+        this.amount = (Double) source.readValue(Double.class.getClassLoader());
+        this.currency = source.readString();
+        this.description = source.readString();
+        this.reference = source.readString();
+    }
+
+    protected DappPosCode(Parcel in) {
+        this.heigth = in.readInt();
+        this.width = in.readInt();
+        this.wallet = in.readParcelable(DappWallet.class.getClassLoader());
+        this.qrText = in.readString();
+        this.tip = (Double) in.readValue(Double.class.getClassLoader());
+        this.urlImage = in.readString();
+        this.expirationMinutes = in.readInt();
+        this.dappId = in.readString();
+        this.amount = (Double) in.readValue(Double.class.getClassLoader());
+        this.currency = in.readString();
+        this.description = in.readString();
+        this.reference = in.readString();
+    }
+
+    public static final Creator<DappPosCode> CREATOR = new Creator<DappPosCode>() {
+        @Override
+        public DappPosCode createFromParcel(Parcel source) {
+            return new DappPosCode(source);
+        }
+
+        @Override
+        public DappPosCode[] newArray(int size) {
+            return new DappPosCode[size];
+        }
+    };
 }

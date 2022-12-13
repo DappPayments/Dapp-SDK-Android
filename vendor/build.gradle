@@ -5,7 +5,7 @@ ext {
 
     publishedGroupId = "mx.dapp.sdk"
     artifact = "vendor"
-    libraryVersion = "3.1.0"
+    libraryVersion = "3.2.0"
 
     libraryDescription = "DappMX Vendor SDK"
     siteUrl = "https://dapp.mx"
@@ -19,12 +19,12 @@ ext {
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 4
-        versionName "3.1.0"
+        versionName "3.2.0"
     }
     buildTypes {
         release {
@@ -36,7 +36,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly 'androidx.appcompat:appcompat:1.5.0'
+    compileOnly 'androidx.appcompat:appcompat:1.5.1'
     compileOnly 'com.google.zxing:core:3.4.0'
     compileOnly 'com.squareup.okhttp3:okhttp:4.2.1'
     compileOnly project(path: ':core')

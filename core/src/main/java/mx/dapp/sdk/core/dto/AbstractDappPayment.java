@@ -21,8 +21,10 @@ public abstract class AbstractDappPayment {
 
     protected String id;
     protected Double amount;
+    protected Double tip;
     protected String currency;
     protected String reference;
+    protected String referenceNum;
     protected String description;
     protected Date date;
     protected String client;
@@ -35,8 +37,10 @@ public abstract class AbstractDappPayment {
 
         id = data.optString("id");
         amount = data.optDouble("amount");
+        tip = data.optDouble("tip");
         currency = data.optString("currency");
         reference = data.optString("reference");
+        referenceNum = data.optString("reference_num");
         description = data.optString("description");
         try {
             date =paserDateString(data.optString("date"));
@@ -59,12 +63,20 @@ public abstract class AbstractDappPayment {
         return amount;
     }
 
+    public Double getTip() {
+        return tip;
+    }
+
     public String getCurrency() {
         return currency;
     }
 
     public String getReference() {
         return reference;
+    }
+
+    public String getReferenceNum() {
+        return referenceNum;
     }
 
     public String getDescription() {

@@ -17,6 +17,7 @@ import mx.dapp.sdk.vendor.callbacks.DappPaymentsCallback;
 import mx.dapp.sdk.vendor.network.DappVendorApi;
 
 public class DappPayment extends AbstractDappPayment implements Parcelable {
+
     public DappPayment(JSONObject data) {
         super(data);
     }
@@ -45,8 +46,10 @@ public class DappPayment extends AbstractDappPayment implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
         dest.writeValue(this.amount);
+        dest.writeValue(this.tip);
         dest.writeString(this.currency);
         dest.writeString(this.reference);
+        dest.writeString(this.referenceNum);
         dest.writeString(this.description);
         dest.writeLong(this.date != null ? this.date.getTime() : -1);
         dest.writeString(this.client);
@@ -57,8 +60,10 @@ public class DappPayment extends AbstractDappPayment implements Parcelable {
     public void readFromParcel(Parcel source) {
         this.id = source.readString();
         this.amount = (Double) source.readValue(Double.class.getClassLoader());
+        this.tip = (Double) source.readValue(Double.class.getClassLoader());
         this.currency = source.readString();
         this.reference = source.readString();
+        this.referenceNum = source.readString();
         this.description = source.readString();
         long tmpDate = source.readLong();
         this.date = tmpDate == -1 ? null : new Date(tmpDate);
@@ -71,8 +76,10 @@ public class DappPayment extends AbstractDappPayment implements Parcelable {
     protected DappPayment(Parcel in) {
         this.id = in.readString();
         this.amount = (Double) in.readValue(Double.class.getClassLoader());
+        this.tip = (Double) in.readValue(Double.class.getClassLoader());
         this.currency = in.readString();
         this.reference = in.readString();
+        this.referenceNum = in.readString();
         this.description = in.readString();
         long tmpDate = in.readLong();
         this.date = tmpDate == -1 ? null : new Date(tmpDate);

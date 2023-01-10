@@ -5,7 +5,7 @@ ext {
 
     publishedGroupId = "mx.dapp.sdk"
     artifact = "wallet"
-    libraryVersion = "3.0.0"
+    libraryVersion = "3.0.1"
 
     libraryDescription = "DappMX Wallet SDK"
     siteUrl = "https://dapp.mx"
@@ -19,12 +19,12 @@ ext {
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 4
-        versionName "3.0.0"
+        versionName "3.0.1"
     }
     buildTypes {
         release {
@@ -36,7 +36,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly 'androidx.appcompat:appcompat:1.5.0'
+    compileOnly 'androidx.appcompat:appcompat:1.5.1'
     compileOnly 'com.squareup.okhttp3:okhttp:4.2.1'
     compileOnly project(path: ':core')
 }

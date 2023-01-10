@@ -4,4 +4,5 @@
     <string name="dapp_callback_path_prefix"> </string>
     <string name="dapp_callback_scheme"> </string>
     <string name="dapp_wallet_scheme"> </string>
+    <string name="title_activity_checkout">Checkout</string>
 </resources>

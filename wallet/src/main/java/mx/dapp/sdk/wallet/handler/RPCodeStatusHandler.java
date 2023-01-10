@@ -182,8 +182,8 @@ public class RPCodeStatusHandler extends AbstractStatusHandler {
     private void getRenewedCodeInfo(JSONObject data) throws ParseException {
         String qrCode = data.optString("qr_code");
         int impresionNum = data.optInt("impresion_num");
-        Date readExpirationDate = paserDateString(data.optString("read_expiration"));
-        Date renewExpirationDate = paserDateString(data.optString("renew_expiration"));
+        Date readExpirationDate = parseDateString(data.optString("read_expiration"));
+        Date renewExpirationDate = parseDateString(data.optString("renew_expiration"));
         callback.onRenew(qrCode, readExpirationDate, renewExpirationDate, impresionNum);
         setExpirationTimer();
         if (impresionNum < dappRPCode.MAX_TIMES_RENEWED) {
@@ -209,7 +209,7 @@ public class RPCodeStatusHandler extends AbstractStatusHandler {
         }
     }
 
-    private Date paserDateString(String strDate) throws ParseException {
+    private Date parseDateString(String strDate) throws ParseException {
         SimpleDateFormat sdf;
         Locale locale = Locale.US;
         if (strDate.endsWith("Z")) {

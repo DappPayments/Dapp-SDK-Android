@@ -2,6 +2,7 @@ package mx.dapp.sdk.core.dto;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.ParseException;
@@ -34,7 +35,6 @@ public abstract class AbstractDappPayment {
     protected AbstractDappPayment(){}
 
     protected AbstractDappPayment(JSONObject data) {
-
         id = data.optString("id");
         amount = data.optDouble("amount");
         tip = data.optDouble("tip");
@@ -43,12 +43,23 @@ public abstract class AbstractDappPayment {
         referenceNum = data.optString("reference_num");
         description = data.optString("description");
         try {
-            date =paserDateString(data.optString("date"));
+            date = parseDateString(data.optString("date"));
         } catch (ParseException e) {
             Log.e(TAG, "Date parse error", e);
         }
 
-        JSONObject payment = data.optJSONArray("payments").optJSONObject(0);
+        JSONArray payments = data.optJSONArray("payments");
+        if (payments == null) {
+            Log.e(TAG, "Null payments array");
+            return;
+        }
+
+        JSONObject payment = payments.optJSONObject(0);
+        if (payment == null) {
+            Log.e(TAG, "Null payment obj");
+            return;
+        }
+
         client = payment.optJSONObject("client").optString("name");
         paymentType = DappPaymentType.fromRawValue(payment.optInt("type"));
         cardLastFour = "";
@@ -99,7 +110,7 @@ public abstract class AbstractDappPayment {
         return paymentType;
     }
 
-    private Date paserDateString(String strDate) throws ParseException {
+    private Date parseDateString(String strDate) throws ParseException {
         SimpleDateFormat sdf;
         Locale locale = Locale.US;
         if (strDate.endsWith("Z")) {

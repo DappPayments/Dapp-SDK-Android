@@ -6,8 +6,8 @@ Este SDK esta pensado para las aplicaciones de negocios con ventas presenciales.
 
 ## INSTALACIÓN
 
-1. Ve a Android Studio - New Project - Minimun SDK.
-2. Selecciona *API 16: Android 4.1* o superior, y crea el proyecto.
+1. Ve a Android Studio - New Project - Minimum SDK.
+2. Selecciona *API 21: Android 5.0* o superior, y crea el proyecto.
 3. Una vez creado el proyecto, abre *your_app | build.gradle*.
 4. Añade esto a */app/build.gradle* en el nivel de *módulo* antes de *dependencies*:
 
@@ -23,7 +23,7 @@ Este SDK esta pensado para las aplicaciones de negocios con ventas presenciales.
 ```java
 
         dependencies {
-          implementation 'mx.dapp.sdk:core:3.1.0@aar'
+          implementation 'mx.dapp.sdk:core:3.1.1@aar'
           implementation 'mx.dapp.sdk:vendor:3.2.0@aar'
         }
 ```

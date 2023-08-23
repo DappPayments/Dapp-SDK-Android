@@ -77,4 +77,20 @@ public class DappVendorApi extends DappApi {
     public void getPayments(String fecha_inicio, String fecha_fin, DappResponseProcess responseHandler) {
         execute("/payments?start_date=" + fecha_inicio + "&end_date=" + fecha_fin, responseHandler);
     }
+
+    public void cashInReferences(String reference, DappResponseProcess responseHandler) {
+        execute("/cashin/references/" + reference, responseHandler);
+    }
+
+    public void cashIn(String reference, String amount, String merchantReference, String store, String pos, DappResponseProcess responseHandler) {
+        HashMap<String, String> postValues = new HashMap<>();
+        postValues.put("reference", reference);
+        postValues.put("amount", amount);
+        postValues.put("merchant_reference", merchantReference);
+        postValues.put("store", store);
+        postValues.put("pos", pos);
+
+        execute(postValues, "/cashin", responseHandler);
+    }
+
 }

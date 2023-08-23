@@ -24,7 +24,7 @@ Este SDK esta pensado para las aplicaciones de negocios con ventas presenciales.
 
         dependencies {
           implementation 'mx.dapp.sdk:core:3.1.1@aar'
-          implementation 'mx.dapp.sdk:vendor:3.2.0@aar'
+          implementation 'mx.dapp.sdk:vendor:3.3.0@aar'
         }
 ```
 
@@ -173,7 +173,7 @@ void codeScanned(String qrString) {
     double amount = 100;
     String description  = "Payment description";
     String reference = "Internal reference";
-    code.charge(amount, description: description, reference: referencenew DappPaymentCallback() {
+    code.charge(amount, description: description, reference: reference, new DappPaymentCallback() {
         @Override
         public void onSuccess(DappPayment payment) {
                 

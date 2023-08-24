@@ -86,7 +86,9 @@ public class DappVendorApi extends DappApi {
         HashMap<String, String> postValues = new HashMap<>();
         postValues.put("reference", reference);
         postValues.put("amount", amount);
-        postValues.put("merchant_reference", merchantReference);
+        if (merchantReference != null) {
+            postValues.put("merchant_reference", merchantReference);
+        }
         postValues.put("store", store);
         postValues.put("pos", pos);
 

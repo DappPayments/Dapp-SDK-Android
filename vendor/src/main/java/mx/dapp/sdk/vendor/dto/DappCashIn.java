@@ -79,6 +79,54 @@ public class DappCashIn implements Parcelable {
         walletName = in.readString();
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public String getMerchantReference() {
+        return merchantReference;
+    }
+
+    public String getAuthNumber() {
+        return authNumber;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public Double getFee() {
+        return fee;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public Boolean getRefunded() {
+        return refunded;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public String getWalletId() {
+        return walletId;
+    }
+
+    public String getWalletName() {
+        return walletName;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);

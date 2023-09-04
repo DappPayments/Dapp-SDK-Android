@@ -24,7 +24,7 @@ Este SDK esta pensado para las aplicaciones de negocios con ventas presenciales.
 
         dependencies {
           implementation 'mx.dapp.sdk:core:3.1.1@aar'
-          implementation 'mx.dapp.sdk:vendor:3.3.3@aar'
+          implementation 'mx.dapp.sdk:vendor:3.4.0@aar'
         }
 ```
 

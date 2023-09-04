@@ -1,7 +1,5 @@
 package mx.dapp.sdk.core.network.http;
 
-import org.json.JSONObject;
-
 import mx.dapp.sdk.core.callbacks.DappCallback;
 import mx.dapp.sdk.core.exceptions.DappException;
 

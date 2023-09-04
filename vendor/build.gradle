@@ -5,7 +5,7 @@ ext {
 
     publishedGroupId = "mx.dapp.sdk"
     artifact = "vendor"
-    libraryVersion = "3.3.3"
+    libraryVersion = "3.4.0"
 
     libraryDescription = "DappMX Vendor SDK"
     siteUrl = "https://dapp.mx"
@@ -24,7 +24,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 4
-        versionName "3.3.3"
+        versionName "3.4.0"
     }
     buildTypes {
         release {

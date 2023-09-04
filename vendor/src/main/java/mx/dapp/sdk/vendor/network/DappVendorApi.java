@@ -80,6 +80,17 @@ public class DappVendorApi extends DappApi {
         execute("/payments?start_date=" + fecha_inicio + "&end_date=" + fecha_fin, responseHandler);
     }
 
+    public void getCashIns(String fecha_inicio, String fecha_fin, int page, int pageSize, DappResponseProcess responseHandler) {
+        String endpoint = "/cashin?start_date=" + fecha_inicio + "&end_date=" + fecha_fin;
+        if (page > 0) {
+            endpoint += "&page=" + page;
+        }
+        if (pageSize > 0) {
+            endpoint += "&limit=" + pageSize;
+        }
+        execute(endpoint, responseHandler);
+    }
+
     public void cashInReferences(String reference, DappResponseProcess responseHandler) {
         execute("/cashin/references/" + reference, responseHandler);
     }

@@ -4,12 +4,20 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import mx.dapp.sdk.core.network.http.DappResponseProcess;
+import mx.dapp.sdk.vendor.callbacks.DappCashInsCallback;
+import mx.dapp.sdk.vendor.callbacks.DappPaymentsCallback;
+import mx.dapp.sdk.vendor.network.DappVendorApi;
 
 public class DappCashIn implements Parcelable {
 
@@ -49,6 +57,25 @@ public class DappCashIn implements Parcelable {
             walletId = jsonWallet.optString("id");
             walletName = jsonWallet.optString("name");
         }
+    }
+
+    public static void getDappCashIns(String fechaInicio, String fechaFin, int page, int pageSize, final DappCashInsCallback callback){
+        DappVendorApi api = new DappVendorApi();
+        api.getCashIns(fechaInicio, fechaFin, page, pageSize, new DappResponseProcess(callback) {
+            @Override
+            public void processSuccess(Object data) {
+                JSONArray cashInsJSON = (JSONArray) data;
+                List<DappCashIn> results = new ArrayList<>();
+                for (int i = 0; i < cashInsJSON.length(); i++) {
+                    results.add(new DappCashIn(cashInsJSON.optJSONObject(i)));
+                }
+                callback.onSuccess(results);
+            }
+        });
+    }
+
+    public static void getDappCashIns(String fechaInicio, String fechaFin, final DappCashInsCallback callback){
+        DappCashIn.getDappCashIns(fechaInicio, fechaFin, 0, 0, callback);
     }
 
     public String getId() {

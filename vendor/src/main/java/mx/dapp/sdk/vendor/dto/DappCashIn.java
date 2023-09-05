@@ -64,12 +64,18 @@ public class DappCashIn implements Parcelable {
         api.getCashIns(fechaInicio, fechaFin, page, pageSize, new DappResponseProcess(callback) {
             @Override
             public void processSuccess(Object data) {
-                JSONArray cashInsJSON = (JSONArray) data;
+                JSONObject jsonData = (JSONObject) data;
+                int totalCount = jsonData.optInt("total_count");
+                int numPages = jsonData.optInt("pages");
+                int currentPage = jsonData.optInt("current_page");
+                boolean hasNextPage = jsonData.optBoolean("has_next_page");
+                JSONArray cashInsJSON = jsonData.optJSONArray("list");
+
                 List<DappCashIn> results = new ArrayList<>();
                 for (int i = 0; i < cashInsJSON.length(); i++) {
                     results.add(new DappCashIn(cashInsJSON.optJSONObject(i)));
                 }
-                callback.onSuccess(results);
+                callback.onSuccess(totalCount, numPages, currentPage, hasNextPage, results);
             }
         });
     }
